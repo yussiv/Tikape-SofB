@@ -7,6 +7,7 @@ import spark.template.thymeleaf.ThymeleafTemplateEngine;
 import tikape.runko.database.Database;
 import tikape.runko.database.OpiskelijaDao;
 import tikape.runko.database.AlueDao;
+import tikape.runko.database.KetjuDao;
 
 public class Main {
 
@@ -17,6 +18,7 @@ public class Main {
 
         //OpiskelijaDao opiskelijaDao = new OpiskelijaDao(database);
         AlueDao alueDao = new AlueDao(database);
+        KetjuDao ketjuDao = new KetjuDao(database);
         
           get("/", (req, res) -> {
             HashMap map = new HashMap<>();
@@ -27,10 +29,17 @@ public class Main {
           
           get("/alue/:id", (req, res) -> {
             HashMap map = new HashMap<>();
-            map.put("alue", alueDao.findOne(Integer.parseInt(req.params("id"))));
+            map.put("ketjut", ketjuDao.findAllFromAlue(Integer.parseInt(req.params("id"))));
 
             return new ModelAndView(map, "alue");
         }, new ThymeleafTemplateEngine());
+          
+//          get("/alue/:id", (req, res) -> {
+//            HashMap map = new HashMap<>();
+//            map.put("alue", alueDao.findOne(Integer.parseInt(req.params("id"))));
+//
+//            return new ModelAndView(map, "alue");
+//        }, new ThymeleafTemplateEngine());
         
 //        get("/", (req, res) -> {
 //            HashMap map = new HashMap<>();

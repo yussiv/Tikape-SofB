@@ -22,20 +22,10 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td><a href="/ketju">Demonin manaamisen alkeet</a></td>
-                    <td>23</td>
-                    <td>Juuri äsken</td>
-                </tr>
-                <tr>
-                    <td>Oikeaoppinen vuohen uhraus</td>
-                    <td>125</td>
-                    <td>Hetki sitten</td>
-                </tr>
-                <tr>
-                    <td>Uhrauspaikan valinta</td>
-                    <td>4</td>
-                    <td>Eilen kello 14.53</td>
+                <tr th:each="ketju: ${ketjut}">
+                    <td><a th:href="${'/ketju/' + ketju.id}" th:text="${ketju.nimi}">alueen nimi + linkki</a></td>
+                    <td>0</td>
+                    <td>eilen</td>
                 </tr>
             </tbody>
         </table>
