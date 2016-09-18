@@ -35,5 +35,19 @@ public class Main {
 
             return new ModelAndView(map, "opiskelija");
         }, new ThymeleafTemplateEngine());
+        
+        get("/alue", (req, res) -> {
+            HashMap map = new HashMap<>();
+            map.put("viesti", "tervehdys");
+            
+            return new ModelAndView(map, "alue");
+        }, new ThymeleafTemplateEngine());
+        
+        get("/ketju", (req, res) -> {
+            HashMap map = new HashMap<>();
+            map.put("viesti", "tervehdys");
+            
+            return new ModelAndView(map, "ketju");
+        }, new ThymeleafTemplateEngine());
     }
 }
