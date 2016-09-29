@@ -4,36 +4,37 @@
         <title>Sisterhood of Behemothin keskustelupalsta</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
     </head>
 
     <body>
-    <div class="container">
-        <div class="page-header">
-            <h1>Sisterhood of Behemothin keskustelupalsta<small> , oikean tiedon lähde</small></h1>
+        <div class="container">
+            <div class="page-header">
+                <h1>Sisterhood of Behemothin keskustelupalsta<small> , oikean tiedon lähde</small></h1>
+            </div>
+            <ul class="pagination pagination-lg">
+                <li><a href="/">Etusivu</a></li>
+                <li  class="active"><a href="/alue/1">Rituaalit</a></li>
+            </ul>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Ketju</th>
+                        <th>Viestejä</th>
+                        <th>Viimeisin viesti</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="ketju: ${ketjut}">
+                        <td><a th:href="${'/ketju/' + ketju.id}" th:text="${ketju.nimi}">alueen nimi + linkki</a></td>
+                        <td>0</td>
+                        <td>eilen</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+
+            <button type="submit" class="btn btn-primary">Avaa uusi ketju</button>
         </div>
-        <h3><a href="/">Etusivu</a>-> Rituaalit</h3>
-        <ul class="pagination pagination-lg">
-            <li><a href="/">Etusivu</a></li>
-            <li  class="active"><a href="/alue/1">Rituaalit</a></li>
-        </ul>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Ketju</th>
-                    <th>Viestejä</th>
-                    <th>Viimeisin viesti</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="ketju: ${ketjut}">
-                    <td><a th:href="${'/ketju/' + ketju.id}" th:text="${ketju.nimi}">alueen nimi + linkki</a></td>
-                    <td>0</td>
-                    <td>eilen</td>
-                </tr>
-            </tbody>
-        </table>
-        <button type="submit" class="btn btn-primary">Avaa uusi ketju</button>
-    </div>
     </body>
 </html>

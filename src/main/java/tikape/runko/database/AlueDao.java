@@ -75,4 +75,15 @@ public class AlueDao implements Dao<Alue, Integer> {
     public void delete(Integer key) throws SQLException {
         // ei toteutettu
     }
+    @Override
+    public void update(String nimi) throws SQLException {
+        Connection connection = database.getConnection();
+        PreparedStatement stmt = connection.prepareStatement("INSERT INTO Alue(nimi) VALUES(?)");
+        stmt.setString(1, nimi);
+        stmt.execute();
+        
+        stmt.close();
+        connection.close();
+
+    }
 }
