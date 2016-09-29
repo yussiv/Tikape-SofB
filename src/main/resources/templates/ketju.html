@@ -38,6 +38,11 @@
                 <button type="submit" class="btn btn-primary">Lähetä</button>
             </form>
         </div>
+        <div class="panel panel-default" th:each="ketju: ${ketjut}">
+            <div class="panel-heading" th:text="${ketju.nimi}">opiskelijan nimi <a th:href="${'/ketju/' + ketju.id}">linkki</a></div>
+            <div class="panel-body" th:text="${ketju.nimi}">Ehkä vika on uhriveitsessä? Käytätkö peruspuukkoa vai jotain kyseiseen tarkoitukseen vihittyä välinettä? Hyvän veitsen saa kuitenkin nettikaupasta muutamalla kympillä, paranisi uhrauksen laatu huomattavasti. Marsun kyllä pitäisi riittää alemman tason demonin manaamiseen vallan mainiosti. Lausuthan loitsut oikein painottaen? Periaatteessa tuo lähes onnistunut manaus voisi viitata siihen että joku viimeisistä loitsuista on väärin lausuttu tai painotettu. Tsemppiä manauksiin!</div>
+            <div class="panel-footer">15.9.2016 kello 16.43</div>
+        </div >
     </div>
     </body>
 </html>
