@@ -20,6 +20,7 @@ public class Main {
         AlueDao alueDao = new AlueDao(database);
         KetjuDao ketjuDao = new KetjuDao(database);
         
+        
           get("/", (req, res) -> {
             HashMap map = new HashMap<>();
             map.put("alueet", alueDao.findAll());
@@ -34,34 +35,6 @@ public class Main {
             return new ModelAndView(map, "alue");
         }, new ThymeleafTemplateEngine());
           
-//          get("/alue/:id", (req, res) -> {
-//            HashMap map = new HashMap<>();
-//            map.put("alue", alueDao.findOne(Integer.parseInt(req.params("id"))));
-//
-//            return new ModelAndView(map, "alue");
-//        }, new ThymeleafTemplateEngine());
-        
-//        get("/", (req, res) -> {
-//            HashMap map = new HashMap<>();
-//            map.put("viesti", "hyvää iltaa");
-//
-//            return new ModelAndView(map, "index");
-//        }, new ThymeleafTemplateEngine());
-
-//        get("/opiskelijat", (req, res) -> {
-//            HashMap map = new HashMap<>();
-//            map.put("opiskelijat", opiskelijaDao.findAll());
-//
-//            return new ModelAndView(map, "opiskelijat");
-//        }, new ThymeleafTemplateEngine());
-
-//        get("/opiskelijat/:id", (req, res) -> {
-//            HashMap map = new HashMap<>();
-//            map.put("opiskelija", opiskelijaDao.findOne(Integer.parseInt(req.params("id"))));
-//
-//            return new ModelAndView(map, "opiskelija");
-//        }, new ThymeleafTemplateEngine());
-        
         get("/alue", (req, res) -> {
             HashMap map = new HashMap<>();
             map.put("viesti", "tervehdys");
@@ -75,5 +48,14 @@ public class Main {
             
             return new ModelAndView(map, "ketju");
         }, new ThymeleafTemplateEngine());
+        
+        
+        post("/uusi/alue", (req, res) ->{
+            String nimi = req.queryParams("alue_nimi");
+            System.out.println(nimi);
+            alueDao.update(nimi);
+            res.redirect("/");
+           return 0;
+        });
     }
 }
