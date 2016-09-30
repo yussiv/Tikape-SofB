@@ -1,3 +1,7 @@
 #message {
         height: 140px;
 }
+
+.panel-footer {
+        background-color: #99ff99 !important;
+}

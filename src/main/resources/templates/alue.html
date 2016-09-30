@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
     </head>
-
+    
     <body>
         <div class="container">
             <div class="page-header">
@@ -28,13 +28,18 @@
                     <tr th:each="ketju: ${ketjut}">
                         <td><a th:href="${'/ketju/' + ketju.id}" th:text="${ketju.nimi}">alueen nimi + linkki</a></td>
                         <td>0</td>
-                        <td>eilen</td>
+                        <td>eilen tai joskus</td>
                     </tr>
                 </tbody>
             </table>
-            
 
             <button type="submit" class="btn btn-primary">Avaa uusi ketju</button>
+            
+<!--            <div class="panel panel-default" th:each="ketju: ${ketjut}">
+                <div class="panel-heading" th:text="${ketju.id}">nimimerkki</div>
+                <div class="panel-body" th:text="${ketju.nimi}">sisalto</div>
+                <div class="panel-footer" th:text="${ketju.nimi}">aika</div>
+            </div >-->
         </div>
     </body>
 </html>

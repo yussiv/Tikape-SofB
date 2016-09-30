@@ -4,7 +4,7 @@
         <title>Sisterhood of Behemothin keskustelupalsta - Ketju</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />        
         <link rel="stylesheet" href="style.css" />
     </head>
 
@@ -13,36 +13,29 @@
         <div class="page-header">
             <h1>Sisterhood of Behemothin keskustelupalsta<small> , oikean tiedon lähde</small></h1>
         </div>
-        <h3><a href="/">Etusivu</a>-> <a href="/alue">Rituaalit</a> -> Demonin manaamisen alkeet</h3>
-        <div class="panel-group">
-            <div class="panel panel-default">
-                <div class="panel-heading">Demon of the Kumpula</div>
-                <div class="panel-body">Kyselisin vähän neuvoja demonin manaamiseen, kun ihan hallussa ei vielä homma ole. Kävin kyllä peruskurssin, mutta lukuisista yrityksistä huolimatta en ole saanut demonia manattua esiin. Erilaisia savuja ja hajuha ilmaantuu, ja kerran luulin nähneeni ilmassa väreilyä, mutta sen enempää en ole saanut aikaiseksi. Missähän voisi olla vika? Uhrieläimenä käytän marsua (olen opiskelija, eikä ole varaa vuoheen :( ), kynttilät tilasin saksalaisesta alan kaupasta ja pitäisi olla ihan asiallista laatua.</div>
-                <div class="panel-footer">15.9.2016 kello 14.54</div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">Aloitteleva manaaja</div>
-                <div class="panel-body">Ehkä vika on uhriveitsessä? Käytätkö peruspuukkoa vai jotain kyseiseen tarkoitukseen vihittyä välinettä? Hyvän veitsen saa kuitenkin nettikaupasta muutamalla kympillä, paranisi uhrauksen laatu huomattavasti. Marsun kyllä pitäisi riittää alemman tason demonin manaamiseen vallan mainiosti. Lausuthan loitsut oikein painottaen? Periaatteessa tuo lähes onnistunut manaus voisi viitata siihen että joku viimeisistä loitsuista on väärin lausuttu tai painotettu. Tsemppiä manauksiin!</div>
-                <div class="panel-footer">15.9.2016 kello 16.43</div>
-            </div>
-            
-            <form>
-                <div class="form-group">
-                    <label for="Käyttäjänimi">Nimi</label>
-                    <input type="textarea" class="form-control" id="name" placeholder="Nimesi" />
-                </div>
-                <div class="form-group">
-                    <label for="viesti">Viesti</label>
-                    <textarea class="form-control" id="message" placeholder="Kirjoita viestisi tähän..."></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Lähetä</button>
-            </form>
-        </div>
-        <div class="panel panel-default" th:each="ketju: ${ketjut}">
-            <div class="panel-heading" th:text="${ketju.nimi}">opiskelijan nimi <a th:href="${'/ketju/' + ketju.id}">linkki</a></div>
-            <div class="panel-body" th:text="${ketju.nimi}">Ehkä vika on uhriveitsessä? Käytätkö peruspuukkoa vai jotain kyseiseen tarkoitukseen vihittyä välinettä? Hyvän veitsen saa kuitenkin nettikaupasta muutamalla kympillä, paranisi uhrauksen laatu huomattavasti. Marsun kyllä pitäisi riittää alemman tason demonin manaamiseen vallan mainiosti. Lausuthan loitsut oikein painottaen? Periaatteessa tuo lähes onnistunut manaus voisi viitata siihen että joku viimeisistä loitsuista on väärin lausuttu tai painotettu. Tsemppiä manauksiin!</div>
-            <div class="panel-footer">15.9.2016 kello 16.43</div>
+        <!--<h3><a href="/">Etusivu</a>-> <a href="/alue">Rituaalit</a> -> Demonin manaamisen alkeet</h3>-->
+        <ul class="pagination pagination-lg">
+                <li><a href="/">Etusivu</a></li>
+                <li><a href="/alue/1">Rituaalit</a></li>
+                <li class="active"><a href="/ketju/1">tämä ketju</a></li>
+        </ul>
+        <div class="panel panel-primary" th:each="viesti: ${viestit}">
+            <div class="panel-heading" th:text="${viesti.nimimerkki}">nimimerkki</div>
+            <div class="panel-body" th:text="${viesti.sisalto}">sisalto</div>
+            <div class="panel-footer" th:text="${viesti.aika}" style="background-color: #99ccff">aika</div>
         </div >
+        <h3>Kirjoita uusi viesti</h3>
+        <form>
+            <div class="form-group">
+                <label for="Nimimerkki">Nimimerkki</label>
+                <input type="textarea" class="form-control" id="name" placeholder="Nimesi" />
+            </div>
+            <div class="form-group">
+                <label for="viesti">Viesti</label>
+                <textarea class="form-control" id="message" placeholder="Kirjoita viestisi tähän..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Lähetä</button>
+        </form>
     </div>
     </body>
 </html>

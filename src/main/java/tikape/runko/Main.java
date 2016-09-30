@@ -5,20 +5,20 @@ import spark.ModelAndView;
 import static spark.Spark.*;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 import tikape.runko.database.Database;
-import tikape.runko.database.OpiskelijaDao;
 import tikape.runko.database.AlueDao;
 import tikape.runko.database.KetjuDao;
+import tikape.runko.database.ViestiDao;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        //Database database = new Database("jdbc:sqlite:opiskelijat.db");
         Database database = new Database("jdbc:sqlite:testi.db");
         database.init();
 
         //OpiskelijaDao opiskelijaDao = new OpiskelijaDao(database);
         AlueDao alueDao = new AlueDao(database);
         KetjuDao ketjuDao = new KetjuDao(database);
+        ViestiDao viestiDao = new ViestiDao(database);
         
         
           get("/", (req, res) -> {
@@ -42,9 +42,16 @@ public class Main {
             return new ModelAndView(map, "alue");
         }, new ThymeleafTemplateEngine());
         
-        get("/ketju", (req, res) -> {
+//        get("/ketju", (req, res) -> {
+//            HashMap map = new HashMap<>();
+//            map.put("viesti", "tervehdys");
+//            
+//            return new ModelAndView(map, "ketju");
+//        }, new ThymeleafTemplateEngine());
+
+        get("/ketju/:id", (req, res) -> {
             HashMap map = new HashMap<>();
-            map.put("viesti", "tervehdys");
+            map.put("viestit", viestiDao.findAllFromKetju(Integer.parseInt(req.params("id"))));
             
             return new ModelAndView(map, "ketju");
         }, new ThymeleafTemplateEngine());
