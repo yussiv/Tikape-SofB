@@ -11,13 +11,13 @@
     <body>
     <div class="container">
         <div class="page-header">
-            <h1>Sisterhood of Behemothin keskustelupalsta<small> , oikean tiedon lähde</small></h1>
+            <h1>Sisterhood of Behemothin keskustelupalsta<small> , oikean tiedon l&auml;hde</small></h1>
         </div>
         <!--<h3><a href="/">Etusivu</a>-> <a href="/alue">Rituaalit</a> -> Demonin manaamisen alkeet</h3>-->
         <ul class="pagination pagination-lg">
                 <li><a href="/">Etusivu</a></li>
                 <li><a href="/alue/1">Rituaalit</a></li>
-                <li class="active"><a href="/ketju/1">tämä ketju</a></li>
+                <li class="active"><a href="/ketju/1">T&auml;m&auml; ketju</a></li>
         </ul>
         <div class="panel panel-primary" th:each="viesti: ${viestit}">
             <div class="panel-heading" th:text="${viesti.nimimerkki}">nimimerkki</div>
@@ -32,9 +32,9 @@
             </div>
             <div class="form-group">
                 <label for="viesti">Viesti</label>
-                <textarea class="form-control" id="message" placeholder="Kirjoita viestisi tähän..."></textarea>
+                <textarea class="form-control" id="message" placeholder="Kirjoita viestisi t&auml;h&auml;n..."></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Lähetä</button>
+            <button type="submit" class="btn btn-primary">L&auml;het&auml;</button>
         </form>
     </div>
     </body>
