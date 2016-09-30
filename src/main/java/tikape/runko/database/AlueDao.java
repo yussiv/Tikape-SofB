@@ -76,9 +76,16 @@ public class AlueDao implements Dao<Alue, Integer> {
         // ei toteutettu
     }
     @Override
-    public void update(String nimi) throws SQLException {
+    public void update(int id, String... args) throws SQLException {
+        
         Connection connection = database.getConnection();
         PreparedStatement stmt = connection.prepareStatement("INSERT INTO Alue(nimi) VALUES(?)");
+        
+        String nimi = null;
+        for(String s: args){
+            //Alueen lisäyksessä args sisältää vain yhden arvon, alueen nimen.
+            nimi = s;
+        }
         stmt.setString(1, nimi);
         stmt.execute();
         

@@ -31,7 +31,7 @@ public class Main {
           get("/alue/:id", (req, res) -> {
             HashMap map = new HashMap<>();
             map.put("ketjut", ketjuDao.findAllFromAlue(Integer.parseInt(req.params("id"))));
-
+            
             return new ModelAndView(map, "alue");
         }, new ThymeleafTemplateEngine());
           
@@ -57,12 +57,21 @@ public class Main {
         }, new ThymeleafTemplateEngine());
         
         
-        post("/uusi/alue", (req, res) ->{
+        post("/", (req, res) ->{
             String nimi = req.queryParams("alue_nimi");
-            System.out.println(nimi);
-            alueDao.update(nimi);
+            alueDao.update(0, nimi); //0 ei tee mitään
             res.redirect("/");
-           return 0;
+           return null;
+        });
+        
+        post("ketju/:id", (req, res) ->{
+            
+            String nimimerkki = req.queryParams("nimimerkki");
+            String viesti = req.queryParams("viesti");
+            int ketjuId = Integer.parseInt(req.params("id"));
+            viestiDao.update(ketjuId, nimimerkki, viesti);
+            res.redirect("/ketju/" + ketjuId);
+           return null;
         });
     }
 }

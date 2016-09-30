@@ -109,7 +109,28 @@ public class ViestiDao implements Dao<Viesti, Integer>  {
     }
 
     @Override
-    public void update(String nimi) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void update(int ketjuId, String... args) throws SQLException {
+        Connection connection = database.getConnection();
+        PreparedStatement stmt = connection.prepareStatement("INSERT INTO Viesti(ketju_id, sisalto, aika, nimimerkki) VALUES(?, ?, CURRENT_TIMESTAMP, ?)");
+        
+        String nimimerkki = null;
+        String sisalto = null;
+        
+        //args sisältää 2 arvoa, nimimerkki ja sisältö. Asetetaan 1. nimimerkiksi ja 2. sisällöksi.
+        for(String s: args){
+            if(nimimerkki == null){
+                nimimerkki = s;
+            }else{
+                sisalto = s;
+            }
+        }
+        stmt.setInt(1, ketjuId);
+        stmt.setString(2, sisalto);
+        stmt.setString(3, nimimerkki);
+        
+        stmt.execute();
+        
+        stmt.close();
+        connection.close();
     }
 }

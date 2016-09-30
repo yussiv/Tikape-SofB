@@ -11,5 +11,6 @@ public interface Dao<T, K> {
 
     void delete(K key) throws SQLException;
     
-    void update(String nimi) throws SQLException;
+    //String... jotta voidaan käyttää samaa metodia viesteillä, alueilla ja ketjuilla.
+    void update(int id, String... args) throws SQLException;
 }

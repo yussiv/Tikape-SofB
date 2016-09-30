@@ -101,8 +101,10 @@ public class KetjuDao implements Dao<Ketju, Integer> {
         // ei toteutettu
     }
 
+   
+
     @Override
-    public void update(String nimi) throws SQLException {
+    public void update(int id, String... args) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
