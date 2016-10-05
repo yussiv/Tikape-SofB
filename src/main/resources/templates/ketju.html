@@ -5,7 +5,7 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />        
-        <link rel="stylesheet" href="style.css" />
+        
     </head>
 
     <body>
@@ -16,8 +16,8 @@
         <!--<h3><a href="/">Etusivu</a>-> <a href="/alue">Rituaalit</a> -> Demonin manaamisen alkeet</h3>-->
         <ul class="pagination pagination-lg">
                 <li><a href="/">Etusivu</a></li>
-                <li><a href="/alue/1">Rituaalit</a></li>
-                <li class="active"><a href="/ketju/1">T&auml;m&auml; ketju</a></li>
+                <li><a th:href="${'/alue/' + alue.id}" th:text="${alue.nimi}">Alue</a></li>
+                <li class="active"><a th:text="${ketju.nimi}">T&auml;m&auml; ketju</a></li>
         </ul>
         <div class="panel panel-primary" th:each="viesti: ${viestit}">
             <div class="panel-heading" th:text="${viesti.nimimerkki}">nimimerkki</div>

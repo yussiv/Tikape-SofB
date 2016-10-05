@@ -19,59 +19,49 @@ public class Main {
         AlueDao alueDao = new AlueDao(database);
         KetjuDao ketjuDao = new KetjuDao(database);
         ViestiDao viestiDao = new ViestiDao(database);
-        
-        
-          get("/", (req, res) -> {
+
+        get("/", (req, res) -> {
             HashMap map = new HashMap<>();
             map.put("alueet", alueDao.findAll());
 
             return new ModelAndView(map, "index");
         }, new ThymeleafTemplateEngine());
-          
-          get("/alue/:id", (req, res) -> {
+
+        get("/alue/:id", (req, res) -> {
+            int id = Integer.parseInt(req.params("id"));
             HashMap map = new HashMap<>();
-            map.put("ketjut", ketjuDao.findAllFromAlue(Integer.parseInt(req.params("id"))));
-            
+            map.put("ketjut", ketjuDao.findAllFromAlue(id));
+            map.put("alue", alueDao.findOne(id));
+
             return new ModelAndView(map, "alue");
         }, new ThymeleafTemplateEngine());
-          
-        get("/alue", (req, res) -> {
-            HashMap map = new HashMap<>();
-            map.put("viesti", "tervehdys");
-            
-            return new ModelAndView(map, "alue");
-        }, new ThymeleafTemplateEngine());
-        
-//        get("/ketju", (req, res) -> {
-//            HashMap map = new HashMap<>();
-//            map.put("viesti", "tervehdys");
-//            
-//            return new ModelAndView(map, "ketju");
-//        }, new ThymeleafTemplateEngine());
 
         get("/ketju/:id", (req, res) -> {
+            int id = Integer.parseInt(req.params("id"));
+            int alueId = ketjuDao.findOne(id).getAlueId();
             HashMap map = new HashMap<>();
-            map.put("viestit", viestiDao.findAllFromKetju(Integer.parseInt(req.params("id"))));
-            
+            map.put("viestit", viestiDao.findAllFromKetju(id));
+            map.put("alue", alueDao.findOne(alueId));
+            map.put("ketju", ketjuDao.findOne(id));
+
             return new ModelAndView(map, "ketju");
         }, new ThymeleafTemplateEngine());
-        
-        
-        post("/", (req, res) ->{
+
+        post("/", (req, res) -> {
             String nimi = req.queryParams("alue_nimi");
             alueDao.update(0, nimi); //0 ei tee mitään
             res.redirect("/");
-           return null;
+            return null;
         });
-        
-        post("ketju/:id", (req, res) ->{
-            
+
+        post("ketju/:id", (req, res) -> {
+
             String nimimerkki = req.queryParams("nimimerkki");
             String viesti = req.queryParams("viesti");
             int ketjuId = Integer.parseInt(req.params("id"));
             viestiDao.update(ketjuId, nimimerkki, viesti);
             res.redirect("/ketju/" + ketjuId);
-           return null;
+            return null;
         });
     }
 }
