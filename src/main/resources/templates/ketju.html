@@ -25,7 +25,7 @@
             <div class="panel-footer" th:text="${viesti.aika}" style="background-color: #99ccff">aika</div>
         </div >
         <h3>Kirjoita uusi viesti</h3>
-        <form  method="post">
+        <form  method="post" th:action="${'/ketju/' + ketju.id}">
             <div class="form-group">
                 <label for="name">Nimimerkki</label>
                 <input type="textarea" class="form-control" id="name" name="nimimerkki" placeholder="Nimesi" />

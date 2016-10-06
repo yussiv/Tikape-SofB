@@ -43,6 +43,7 @@ public class Main {
             map.put("viestit", viestiDao.findAllFromKetju(id));
             map.put("alue", alueDao.findOne(alueId));
             map.put("ketju", ketjuDao.findOne(id));
+//            map.put("viesti", viestiDao.findOne(id));
 
             return new ModelAndView(map, "ketju");
         }, new ThymeleafTemplateEngine());
@@ -54,11 +55,14 @@ public class Main {
             return null;
         });
 
-        post("ketju/:id", (req, res) -> {
+        post("/ketju/:id", (req, res) -> {
 
             String nimimerkki = req.queryParams("nimimerkki");
             String viesti = req.queryParams("viesti");
             int ketjuId = Integer.parseInt(req.params("id"));
+            System.out.println(ketjuId);
+            System.out.println(nimimerkki);
+            System.out.println(viesti);
             viestiDao.update(ketjuId, nimimerkki, viesti);
             res.redirect("/ketju/" + ketjuId);
             return null;
