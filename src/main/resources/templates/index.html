@@ -31,10 +31,19 @@
                     </tr>
                 </tbody>
             </table>
-            <form method="post">
-                <input type="text" name="alue_nimi" placeholder="Alueen nimi" />
-                <button type="submit" class="btn btn-primary">Avaa uusi alue</button>
-            </form>
+            <button type="action" id="hidebutton" class="btn btn-primary" onclick="changeVisibility()">Avaa uusi alue</button>
+            <div id="hidden" style="display: none">
+                <form method="post">
+                    <input type="text" name="alue_nimi" placeholder="Alueen nimi" />
+                    <button type="submit" class="btn btn-primary" onclick="" >Avaa uusi alue</button>
+                </form>
+            </div>
         </div>
+        <script>
+            function changeVisibility() {
+                document.getElementById("hidden").style.display = "block";
+                document.getElementById("hidebutton").style.display = "none";
+            }
+        </script>
     </body>
 </html>
