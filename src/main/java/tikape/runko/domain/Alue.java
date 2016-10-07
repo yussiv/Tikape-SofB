@@ -13,10 +13,34 @@ public class Alue {
     
     private Integer id;
     private String nimi;
+    private Integer viestienMaara;
+    private String viimeisinViesti;
     
     public Alue(Integer id, String nimi) {
         this.id = id;
         this.nimi = nimi;
+    }
+
+    public Alue(Integer id, String nimi, Integer viestienMaara, String viimeisimmanViestinAika) {
+        this(id, nimi);
+        this.viestienMaara = viestienMaara;
+        this.viimeisinViesti = viimeisimmanViestinAika;
+    }
+
+    public void setViestienMaara(Integer viestienMaara) {
+        this.viestienMaara = viestienMaara;
+    }
+
+    public void setViimeisinViesti(String viimeisinViesti) {
+        this.viimeisinViesti = viimeisinViesti;
+    }
+
+    public Integer getViestienMaara() {
+        return viestienMaara;
+    }
+
+    public String getViimeisinViesti() {
+        return viimeisinViesti;
     }
 
     public Integer getId() {

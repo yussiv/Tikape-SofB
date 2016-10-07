@@ -134,4 +134,28 @@ public class ViestiDao implements Dao<Viesti, Integer>  {
         stmt.close();
         connection.close();
     }
+
+    public Integer findCountByAreaId(Integer id) throws SQLException {
+        List<Integer> counts = database.queryAndCollect("SELECT COUNT(*) AS count FROM Viesti V JOIN Ketju K ON K.id = V.ketju_id WHERE K.alue_id = ?", rs -> rs.getInt("count"), id);
+        if(counts.isEmpty())
+            return 0;
+        else
+            return counts.get(0);
+    }
+    
+    public Viesti findLastViestiByAreaId(Integer id) throws SQLException {
+        List<Viesti> viestit = database.queryAndCollect(
+                "SELECT * FROM Viesti V JOIN Ketju K ON K.id = V.ketju_id WHERE K.alue_id = ? ORDER BY aika DESC LIMIT 1", 
+                rs -> new Viesti(
+                        rs.getInt("id"), 
+                        rs.getInt("ketju_id"),
+                        rs.getString("sisalto"),
+                        rs.getString("aika"),
+                        rs.getString("nimimerkki")
+                ), id);
+        if(viestit.isEmpty())
+            return null;
+        else
+            return viestit.get(0);
+    }
 }

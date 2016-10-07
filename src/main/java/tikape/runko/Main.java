@@ -14,7 +14,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         Database database = new Database("jdbc:sqlite:testi.db");
-        database.init();
+        //database.init();
 
         Spark.staticFileLocation("/public");
         AlueDao alueDao = new AlueDao(database);

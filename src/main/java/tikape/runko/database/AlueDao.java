@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import tikape.runko.domain.Alue;
+import tikape.runko.domain.Viesti;
 
 /**
  *
@@ -57,11 +58,16 @@ public class AlueDao implements Dao<Alue, Integer> {
 
         ResultSet rs = stmt.executeQuery();
         List<Alue> alueet = new ArrayList<>();
+        
+        ViestiDao viestiDao = new ViestiDao(database);
+        
         while (rs.next()) {
             Integer id = rs.getInt("id");
             String nimi = rs.getString("nimi");
-
-            alueet.add(new Alue(id, nimi));
+            Integer viestienMaara = viestiDao.findCountByAreaId(id);
+            Viesti viimeisinViesti = viestiDao.findLastViestiByAreaId(id);
+            
+            alueet.add(new Alue(id, nimi, viestienMaara, viimeisinViesti.getAika()));
         }
 
         rs.close();
