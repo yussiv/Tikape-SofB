@@ -1,0 +1,45 @@
+body {
+    background: #000 url(/images/bg.jpg);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: #fff;
+}
+
+.page {
+    margin: 2em 0;
+}
+
+.container {
+    background-color: #4a2c2c;
+}
+
+a {
+    color: #d00
+}
+
+a:hover,
+a:active {
+    color: #f00
+}
+
+.site-footer {
+    padding: 1em 0;
+    text-align: right;
+}
+.slogan {
+    font-size: 1.2em;
+    font-style: italic;
+}
+
+.main-content {
+    padding-bottom: 1.5em;
+}
+
+.site-footer .container {
+    background-color: transparent;
+}
+
+.panel-body {
+    color: #000;
+}

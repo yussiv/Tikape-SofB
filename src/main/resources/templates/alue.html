@@ -1,62 +1,48 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title>Sisterhood of Behemothin keskustelupalsta</title>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
+
+    <head th:include="fragment/scripts :: head (title=${alue.nimi})">
+        <title>Otsikko</title>
     </head>
-    
     <body>
-        <div class="container">
-            <div class="page-header">
-                <h1>Sisterhood of Behemothin keskustelupalsta<small> , oikean tiedon l&auml;hde</small></h1>
+        <div class="page">
+
+            <header th:replace="fragment/layout :: site-header"></header>
+
+            <div class="content container">
+
+                <header class="page-header">
+                    <h2>Keskustelualueet</h2>
+                    <div th:include="fragment/layout :: breadcrumb" th:remove="tag"></div>
+                </header>
+
+                <section class="main-content">
+                    
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Ketju</th>
+                                <th>Viestej&auml;</th>
+                                <th>Viimeisin viesti</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="ketju: ${ketjut}">
+                                <td><a th:href="${'/ketju/' + ketju.id}" th:text="${ketju.nimi}">alueen nimi + linkki</a></td>
+                                <td>0</td>
+                                <td>eilen tai joskus</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div th:include="fragment/form/add-thread :: form" th:remove="tag"></div>
+                </section>
             </div>
-            <ul class="pagination pagination-lg">
-                <li><a href="/">Etusivu</a></li>
-                <li  class="active"><a th:text="${alue.nimi}">Alue</a></li>
-            </ul>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Ketju</th>
-                        <th>Viestej&auml;</th>
-                        <th>Viimeisin viesti</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="ketju: ${ketjut}">
-                        <td><a th:href="${'/ketju/' + ketju.id}" th:text="${ketju.nimi}">alueen nimi + linkki</a></td>
-                        <td>0</td>
-                        <td>eilen tai joskus</td>
-                    </tr>
-                </tbody>
-            </table>
-            <input class="btn btn-primary" type="button" onclick="changeVisibility()" value="Avaa uusi ketju" />
-            <br/>
-            <br/>
-            <div id="hidden_form" style="display: none">
-                <form method="post" th:action="${'/alue/' + alue.id}">
-                    <div class="form-group">
-                        <label for="name">Nimimerkki</label>
-                        <input type="textarea" class="form-control" id="name" name="nimimerkki" placeholder="Nimesi" />
-                    </div>
-                    <div class="form-group">
-                        <label for="title">Ketjun nimi</label>
-                        <input type="textarea" class="form-control" id="title" name="otsikko" placeholder="Ketjun nimi" />
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Viesti</label>
-                        <textarea class="form-control" id="message" name="viesti" placeholder="Kirjoita viestisi t&auml;h&auml;n..." style="height: 140px;"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="margin-bottom: 140px;">L&auml;het&auml;</button>
-                </form> 
-            </div> 
+
+            <footer th:replace="fragment/layout :: footer"></footer>
+
         </div>
-        <script>
-            function changeVisibility() {
-                document.getElementById("hidden_form").style.display = "block";
-            }
-        </script>
+
+        <div th:include="fragment/scripts :: footer-scripts" th:remove="tag"></div>
     </body>
 </html>

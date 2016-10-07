@@ -1,0 +1,17 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Layout Generic Title</title>
+    </head>
+    <body>
+        <div th:fragment="form">
+            <button type="action" id="hidebutton" class="btn btn-primary" onclick="changeVisibility()">Avaa uusi alue</button>
+            <div id="hidden" style="display: none">
+                <form method="post">
+                    <input type="text" name="alue_nimi" placeholder="Alueen nimi" />
+                    <button type="submit" class="btn btn-primary" onclick="" >Avaa uusi alue</button>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Layout Generic Title</title>
+    </head>
+    <body>
+        <div th:fragment="form">
+            <h3>Kirjoita uusi viesti</h3>
+            <form  method="post" th:action="${'/ketju/' + ketju.id}">
+                <div class="form-group">
+                    <label for="name">Nimimerkki</label>
+                    <input type="textarea" class="form-control" id="name" name="nimimerkki" placeholder="Nimesi" />
+                </div>
+                <div class="form-group">
+                    <label for="message">Viesti</label>
+                    <textarea class="form-control" id="message" name="viesti" placeholder="Kirjoita viestisi t&auml;h&auml;n..." style="height: 140px;"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">L&auml;het&auml;</button>
+            </form>
+        </div>
+    </body>
+</html>

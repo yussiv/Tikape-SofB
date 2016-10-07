@@ -1,49 +1,45 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
-    <head>
-        <title>Sisterhood of Behemothin keskustelupalsta</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <head th:include="fragment/scripts :: head (title=Etusivu)">
+        <title>Otsikko</title>
     </head>
     <body>
-        <div class="container">
-            <div class="page-header">
-                <h1>Sisterhood of Behemothin keskustelupalsta<small> , oikean tiedon l&auml;hde</small></h1>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Francisco_de_Goya_y_Lucientes_-_Witches'_Sabbath_(The_Great_He-Goat).jpg" class="img-responsive" alt="Witches' Sabbath (Goya, 1798)"/>
+        <div class="page">
+            
+            <header th:replace="fragment/layout :: site-header"></header>
+            
+            <div class="content container">
+                
+                <header class="page-header">
+                    <h2>Keskustelualueet</h2>
+                </header>
+                
+                <section class="main-content">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Alue</th>
+                                <th>Viestej&auml; yhteens&auml;</th>
+                                <th>Viimeisin viesti</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="alue: ${alueet}">
+                                <td><a th:href="${'/alue/' + alue.id}" th:text="${alue.nimi}">alueen nimi + linkki</a></td>
+                                <td>0</td>
+                                <td>eilen</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div th:include="fragment/form/add-area :: form" th:remove="tag"></div>
+                </section>
             </div>
-            <h2>Keskustelualueet</h2>
 
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Alue</th>
-                        <th>Viestej&auml; yhteens&auml;</th>
-                        <th>Viimeisin viesti</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="alue: ${alueet}">
-                        <td><a th:href="${'/alue/' + alue.id}" th:text="${alue.nimi}">alueen nimi + linkki</a></td>
-                        <td>0</td>
-                        <td>eilen</td>
-                    </tr>
-                </tbody>
-            </table>
-            <button type="action" id="hidebutton" class="btn btn-primary" onclick="changeVisibility()">Avaa uusi alue</button>
-            <div id="hidden" style="display: none">
-                <form method="post">
-                    <input type="text" name="alue_nimi" placeholder="Alueen nimi" />
-                    <button type="submit" class="btn btn-primary" onclick="" >Avaa uusi alue</button>
-                </form>
-            </div>
+            <footer th:replace="fragment/layout :: footer"></footer>
+            
         </div>
-        <script>
-            function changeVisibility() {
-                document.getElementById("hidden").style.display = "block";
-                document.getElementById("hidebutton").style.display = "none";
-            }
-        </script>
+        
+        <div th:include="fragment/scripts :: footer-scripts" th:remove="tag"></div>
     </body>
 </html>

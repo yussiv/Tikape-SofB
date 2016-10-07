@@ -1,41 +1,37 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title>Sisterhood of Behemothin keskustelupalsta - Ketju</title>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />        
-        
-    </head>
 
+    <head th:include="fragment/scripts :: head (title=${ketju.nimi})">
+        <title>Otsikko</title>
+    </head>
     <body>
-    <div class="container">
-        <div class="page-header">
-            <h1>Sisterhood of Behemothin keskustelupalsta<small> , oikean tiedon l&auml;hde</small></h1>
+        <div class="page">
+
+            <header th:replace="fragment/layout :: site-header"></header>
+
+            <div class="content container">
+
+                <header class="page-header">
+                    <h2>Keskustelualueet</h2>
+                    <div th:include="fragment/layout :: breadcrumb" th:remove="tag"></div>
+                </header>
+
+                <section class="main-content">
+
+                    <div class="panel panel-primary" th:each="viesti: ${viestit}">
+                        <div class="panel-heading" th:text="${viesti.nimimerkki}">nimimerkki</div>
+                        <div class="panel-body" th:text="${viesti.sisalto}">sisalto</div>
+                        <div class="panel-footer" th:text="${viesti.aika}" style="background-color: #99ccff">aika</div>
+                    </div >
+
+                    <div th:include="fragment/form/add-message :: form" th:remove="tag"></div>
+                </section>
+            </div>
+
+            <footer th:replace="fragment/layout :: footer"></footer>
+
         </div>
-        <!--<h3><a href="/">Etusivu</a>-> <a href="/alue">Rituaalit</a> -> Demonin manaamisen alkeet</h3>-->
-        <ul class="pagination pagination-lg">
-                <li><a href="/">Etusivu</a></li>
-                <li><a th:href="${'/alue/' + alue.id}" th:text="${alue.nimi}">Alue</a></li>
-                <li class="active"><a th:text="${ketju.nimi}">T&auml;m&auml; ketju</a></li>
-        </ul>
-        <div class="panel panel-primary" th:each="viesti: ${viestit}">
-            <div class="panel-heading" th:text="${viesti.nimimerkki}">nimimerkki</div>
-            <div class="panel-body" th:text="${viesti.sisalto}">sisalto</div>
-            <div class="panel-footer" th:text="${viesti.aika}" style="background-color: #99ccff">aika</div>
-        </div >
-        <h3>Kirjoita uusi viesti</h3>
-        <form  method="post" th:action="${'/ketju/' + ketju.id}">
-            <div class="form-group">
-                <label for="name">Nimimerkki</label>
-                <input type="textarea" class="form-control" id="name" name="nimimerkki" placeholder="Nimesi" />
-            </div>
-            <div class="form-group">
-                <label for="message">Viesti</label>
-                <textarea class="form-control" id="message" name="viesti" placeholder="Kirjoita viestisi t&auml;h&auml;n..." style="height: 140px;"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary" style="margin-bottom: 140px;">L&auml;het&auml;</button>
-        </form>
-    </div>
+
+        <div th:include="fragment/scripts :: footer-scripts" th:remove="tag"></div>
     </body>
 </html>
