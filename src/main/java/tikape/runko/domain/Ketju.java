@@ -14,11 +14,35 @@ public class Ketju {
     private Integer id;
     private Integer alueId;
     private String nimi;
+    private Integer viestienMaara;
+    private String viimeisinViesti;
     
     public Ketju(Integer id, Integer alueId, String nimi) {
         this.id = id;
         this.alueId = alueId;
         this.nimi = nimi;
+    }
+
+    public Ketju(Integer id, Integer alueId, String nimi, Integer viestienMaara, String viimeisimmanViestinAika) {
+        this(id, alueId, nimi);
+        this.viestienMaara = viestienMaara;
+        this.viimeisinViesti = viimeisimmanViestinAika;
+    }
+
+    public Integer getViestienMaara() {
+        return viestienMaara;
+    }
+
+    public String getViimeisinViesti() {
+        return viimeisinViesti;
+    }
+
+    public void setViestienMaara(Integer viestienMaara) {
+        this.viestienMaara = viestienMaara;
+    }
+
+    public void setViimeisinViesti(String viimeisinViesti) {
+        this.viimeisinViesti = viimeisinViesti;
     }
     
     public Integer getId(){

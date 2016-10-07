@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import tikape.runko.domain.Ketju;
+import tikape.runko.domain.Viesti;
 
 /**
  *
@@ -79,14 +80,19 @@ public class KetjuDao implements Dao<Ketju, Integer> {
         PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Ketju WHERE alue_id = ?");
         stmt.setObject(1, key);
         
+        ViestiDao viestiDao = new ViestiDao(database);
+        
         ResultSet rs = stmt.executeQuery();
         List<Ketju> ketjut = new ArrayList<>();
         while (rs.next()) {
             Integer id = rs.getInt("id");
             Integer alueId = rs.getInt("alue_id");
             String nimi = rs.getString("nimi");
+            Integer viestienMaara = viestiDao.findCountByKetjuId(id);
+            Viesti viimeisinViesti = viestiDao.findLastViestiByKetjuId(id);
+            String timestamp = viimeisinViesti == null ? "" : viimeisinViesti.getAika();
 
-            ketjut.add(new Ketju(id, alueId, nimi));
+            ketjut.add(new Ketju(id, alueId, nimi, viestienMaara, timestamp));
         }
 
         rs.close();
