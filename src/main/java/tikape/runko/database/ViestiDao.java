@@ -12,9 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import tikape.runko.domain.Viesti;
-import java.util.Date;
-import java.text.DateFormat;
-import java.text.ParseException;
+import tikape.runko.Formatteri;
 
 /**
  *
@@ -94,7 +92,7 @@ public class ViestiDao implements Dao<Viesti, Integer>  {
             String aika = rs.getString("aika");
             String nimimerkki = rs.getString("nimimerkki");
 
-            viestit.add(new Viesti(id, ketjuId, sisalto, aika, nimimerkki));
+            viestit.add(new Viesti(id, ketjuId, sisalto, new Formatteri().formatoi(aika), nimimerkki));
         }
 
         rs.close();
