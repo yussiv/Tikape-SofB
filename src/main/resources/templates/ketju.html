@@ -18,10 +18,10 @@
 
                 <section class="main-content">
 
-                    <div class="panel panel-primary" th:each="viesti: ${viestit}">
+                    <div class="panel panel-danger" th:each="viesti: ${viestit}">
                         <div class="panel-heading" th:text="${viesti.nimimerkki}">nimimerkki</div>
                         <div class="panel-body" th:text="${viesti.sisalto}">sisalto</div>
-                        <div class="panel-footer" th:text="${viesti.aika}" style="background-color: #99ccff">aika</div>
+                        <div class="panel-footer" th:text="${viesti.aika}" style="background-color: #990000">aika</div>
                     </div >
 
                     <div th:include="fragment/form/add-message :: form" th:remove="tag"></div>

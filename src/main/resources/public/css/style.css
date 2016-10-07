@@ -43,3 +43,7 @@ a:active {
 .panel-body {
     color: #000;
 }
+
+.pagination, pagination-lg {
+    background-color: #990000 !important;
+}

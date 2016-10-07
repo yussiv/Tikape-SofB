@@ -5,11 +5,11 @@
     </head>
     <body>
         <div th:fragment="form">
-            <button type="action" id="hidebutton" class="btn btn-primary" onclick="changeVisibility()">Avaa uusi alue</button>
+            <button type="action" id="hidebutton" class="btn btn-danger" onclick="changeVisibility()">Avaa uusi alue</button>
             <div id="hidden" style="display: none">
                 <form method="post">
                     <input type="text" name="alue_nimi" placeholder="Alueen nimi" />
-                    <button type="submit" class="btn btn-primary" onclick="" >Avaa uusi alue</button>
+                    <button type="submit" class="btn btn-danger" onclick="" >Avaa uusi alue</button>
                 </form>
             </div>
         </div>
