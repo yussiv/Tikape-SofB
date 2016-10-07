@@ -20,7 +20,7 @@
 
         <div th:fragment="breadcrumb">
             <ul class="pagination pagination-lg">
-                <li><a href="/">Etusivu</a></li>
+                <li><a href="/">Keskustelualueet</a></li>
                 <li class="breadcrumb-item" th:classappend="${ketju} ? '' : 'active'"><a th:href="${'/alue/' + alue.id}" th:text="${alue.nimi}">Alue</a></li>
                 <li th:if="${ketju}" class="active"><a th:text="${ketju.nimi}">T&auml;m&auml; ketju</a></li>
             </ul>

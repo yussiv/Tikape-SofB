@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import tikape.runko.Formatteri;
 import tikape.runko.domain.Ketju;
 import tikape.runko.domain.Viesti;
 
@@ -92,7 +93,7 @@ public class KetjuDao implements Dao<Ketju, Integer> {
             Viesti viimeisinViesti = viestiDao.findLastViestiByKetjuId(id);
             String timestamp = viimeisinViesti == null ? "" : viimeisinViesti.getAika();
 
-            ketjut.add(new Ketju(id, alueId, nimi, viestienMaara, timestamp));
+            ketjut.add(new Ketju(id, alueId, nimi, viestienMaara, new Formatteri().formatoi(timestamp)));
         }
 
         rs.close();

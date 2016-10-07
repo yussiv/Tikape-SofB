@@ -67,7 +67,6 @@ public class AlueDao implements Dao<Alue, Integer> {
         ViestiDao viestiDao = new ViestiDao(database);
         
         while (rs.next()) {
-            try {
                 Integer id = rs.getInt("id");
                 String nimi = rs.getString("nimi");
                 Integer viestienMaara = viestiDao.findCountByAreaId(id);
@@ -75,9 +74,6 @@ public class AlueDao implements Dao<Alue, Integer> {
                 String timestamp = viimeisinViesti == null ? "" : viimeisinViesti.getAika();
                 String aika = formatter.formatoi(timestamp);
                 alueet.add(new Alue(id, nimi, viestienMaara, aika));
-            } catch (ParseException ex) {
-                Logger.getLogger(AlueDao.class.getName()).log(Level.SEVERE, null, ex);
-            }
         }
 
         rs.close();
