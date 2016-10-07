@@ -69,3 +69,7 @@ a:active {
     background-color: #900;
     border-color: #a00;
 }
+
+#hidden {
+    display: none;
+}
