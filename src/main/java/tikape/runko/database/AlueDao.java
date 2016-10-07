@@ -9,10 +9,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import tikape.runko.domain.Alue;
 import tikape.runko.domain.Viesti;
+import tikape.runko.Formatteri;
 
 /**
  *
@@ -21,6 +25,7 @@ import tikape.runko.domain.Viesti;
 public class AlueDao implements Dao<Alue, Integer> {
     
     private Database database;
+    Formatteri formatter = new Formatteri();
     
     public AlueDao(Database database) {
         this.database = database;
@@ -62,12 +67,17 @@ public class AlueDao implements Dao<Alue, Integer> {
         ViestiDao viestiDao = new ViestiDao(database);
         
         while (rs.next()) {
-            Integer id = rs.getInt("id");
-            String nimi = rs.getString("nimi");
-            Integer viestienMaara = viestiDao.findCountByAreaId(id);
-            Viesti viimeisinViesti = viestiDao.findLastViestiByAreaId(id);
-            String timestamp = viimeisinViesti == null ? "" : viimeisinViesti.getAika();
-            alueet.add(new Alue(id, nimi, viestienMaara, timestamp));
+            try {
+                Integer id = rs.getInt("id");
+                String nimi = rs.getString("nimi");
+                Integer viestienMaara = viestiDao.findCountByAreaId(id);
+                Viesti viimeisinViesti = viestiDao.findLastViestiByAreaId(id);
+                String timestamp = viimeisinViesti == null ? "" : viimeisinViesti.getAika();
+                String aika = formatter.formatoi(timestamp);
+                alueet.add(new Alue(id, nimi, viestienMaara, aika));
+            } catch (ParseException ex) {
+                Logger.getLogger(AlueDao.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
         rs.close();

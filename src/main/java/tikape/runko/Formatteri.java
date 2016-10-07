@@ -14,7 +14,7 @@ public class Formatteri {
     }
     
     public Formatteri() {
-        this.stringToDateFormat = "yyyy-MM-dd hh:MM:ss";
+        this.stringToDateFormat = "yyyy-MM-dd hh:mm:ss";
         this.dateToStringFormat = "dd.MM.yyyy hh:mm";
     }
     
