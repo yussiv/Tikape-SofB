@@ -68,6 +68,7 @@ a:active {
 .btn-danger {
     background-color: #900;
     border-color: #a00;
+    margin-top: 30px;
 }
 
 #hidden {
