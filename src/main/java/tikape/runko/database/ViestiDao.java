@@ -11,8 +11,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import tikape.runko.domain.Ketju;
 import tikape.runko.domain.Viesti;
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+
 /**
  *
  * @author kari
@@ -66,7 +69,6 @@ public class ViestiDao implements Dao<Viesti, Integer>  {
             String sisalto = rs.getString("sisalto");
             String aika = rs.getString("aika");
             String nimimerkki = rs.getString("nimimerkki");
-
             viestit.add(new Viesti(id, ketjuId, sisalto, aika, nimimerkki));
         }
 
@@ -90,7 +92,6 @@ public class ViestiDao implements Dao<Viesti, Integer>  {
             Integer ketjuId = rs.getInt("ketju_id");
             String sisalto = rs.getString("sisalto");
             String aika = rs.getString("aika");
-//            String aika = "joku aika";
             String nimimerkki = rs.getString("nimimerkki");
 
             viestit.add(new Viesti(id, ketjuId, sisalto, aika, nimimerkki));
@@ -107,32 +108,6 @@ public class ViestiDao implements Dao<Viesti, Integer>  {
     public void delete(Integer key) throws SQLException {
         // ei toteutettu
     }
-
-//    @Override
-//    public void update(int ketjuId, String... args) throws SQLException {
-//        Connection connection = database.getConnection();
-//        PreparedStatement stmt = connection.prepareStatement("INSERT INTO Viesti(ketju_id, sisalto, aika, nimimerkki) VALUES(?, ?, CURRENT_TIMESTAMP, ?)");
-//        
-//        String nimimerkki = null;
-//        String sisalto = null;
-//        
-//        //args sisältää 2 arvoa, nimimerkki ja sisältö. Asetetaan 1. nimimerkiksi ja 2. sisällöksi.
-//        for(String s: args){
-//            if(nimimerkki == null){
-//                nimimerkki = s;
-//            }else{
-//                sisalto = s;
-//            }
-//        }
-//        stmt.setInt(1, ketjuId);
-//        stmt.setString(2, sisalto);
-//        stmt.setString(3, nimimerkki);
-//        
-//        stmt.execute();
-//        
-//        stmt.close();
-//        connection.close();
-//    }
 //    
     @Override
     public void update(int ketjuId, String... args) throws SQLException {

@@ -70,8 +70,11 @@ public class Main {
             String otsikko = req.queryParams("otsikko");
             String viesti = req.queryParams("viesti");
             int alueId = Integer.parseInt(req.params("id"));
+            //uuden ketjun avaus
             ketjuDao.update(alueId, otsikko);
+            //haetaan äsken avatun ketjun id
             int ketjuId = ketjuDao.getNewestKetju(alueId);
+            //avataan uusi ketju
             viestiDao.update(ketjuId, nimimerkki, viesti);
             res.redirect("/alue/" + alueId);
             return null;

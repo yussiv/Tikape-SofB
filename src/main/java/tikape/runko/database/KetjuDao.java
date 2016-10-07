@@ -99,7 +99,8 @@ public class KetjuDao implements Dao<Ketju, Integer> {
     public int getNewestKetju(Integer key) throws SQLException {
         
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Ketju WHERE alue_id = ? ORDER BY id DESC LIMIT 1");
+        // Hakee kaikki kyseisen alueen ketjut ja valitsee niistä uusimman ketjun avausta varten
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Ketju WHERE alue_id = ? ORDER BY id DESC LIMIT 1"); 
         stmt.setObject(1, key);
         
         ResultSet rs = stmt.executeQuery();
@@ -126,7 +127,7 @@ public class KetjuDao implements Dao<Ketju, Integer> {
         int alue_id = id;
         String nimi = null;
         for(String s: args){
-            //Alueen lisäyksessä args sisältää vain yhden arvon, alueen nimen.
+            //Ketjun avauksessa args sisältää vain yhden arvon, alueen nimen.
             nimi = s;
         }
         stmt.setInt(1, alue_id);
