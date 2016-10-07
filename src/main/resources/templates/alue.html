@@ -32,14 +32,31 @@
                     </tr>
                 </tbody>
             </table>
-
-            <button type="submit" class="btn btn-primary">Avaa uusi ketju</button>
-            
-<!--            <div class="panel panel-default" th:each="ketju: ${ketjut}">
-                <div class="panel-heading" th:text="${ketju.id}">nimimerkki</div>
-                <div class="panel-body" th:text="${ketju.nimi}">sisalto</div>
-                <div class="panel-footer" th:text="${ketju.nimi}">aika</div>
-            </div >-->
+            <input class="btn btn-primary" type="button" onclick="changeVisibility()" value="Avaa uusi ketju" />
+            <br/>
+            <br/>
+            <div id="hidden_form" style="display: none">
+                <form method="post" th:action="${'/alue/' + alue.id}">
+                    <div class="form-group">
+                        <label for="name">Nimimerkki</label>
+                        <input type="textarea" class="form-control" id="name" name="nimimerkki" placeholder="Nimesi" />
+                    </div>
+                    <div class="form-group">
+                        <label for="title">Ketjun nimi</label>
+                        <input type="textarea" class="form-control" id="title" name="otsikko" placeholder="Ketjun nimi" />
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Viesti</label>
+                        <textarea class="form-control" id="message" name="viesti" placeholder="Kirjoita viestisi t&auml;h&auml;n..." style="height: 140px;"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="margin-bottom: 140px;">L&auml;het&auml;</button>
+                </form> 
+            </div> 
         </div>
+        <script>
+            function changeVisibility() {
+                document.getElementById("hidden_form").style.display = "block";
+            }
+        </script>
     </body>
 </html>

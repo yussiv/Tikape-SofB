@@ -15,7 +15,6 @@ public class Main {
         Database database = new Database("jdbc:sqlite:testi.db");
         database.init();
 
-        //OpiskelijaDao opiskelijaDao = new OpiskelijaDao(database);
         AlueDao alueDao = new AlueDao(database);
         KetjuDao ketjuDao = new KetjuDao(database);
         ViestiDao viestiDao = new ViestiDao(database);
@@ -60,11 +59,21 @@ public class Main {
             String nimimerkki = req.queryParams("nimimerkki");
             String viesti = req.queryParams("viesti");
             int ketjuId = Integer.parseInt(req.params("id"));
-            System.out.println(ketjuId);
-            System.out.println(nimimerkki);
-            System.out.println(viesti);
             viestiDao.update(ketjuId, nimimerkki, viesti);
             res.redirect("/ketju/" + ketjuId);
+            return null;
+        });
+        
+        post("/alue/:id", (req, res) -> {
+
+            String nimimerkki = req.queryParams("nimimerkki");
+            String otsikko = req.queryParams("otsikko");
+            String viesti = req.queryParams("viesti");
+            int alueId = Integer.parseInt(req.params("id"));
+            ketjuDao.update(alueId, otsikko);
+            int ketjuId = ketjuDao.getNewestKetju(alueId);
+            viestiDao.update(ketjuId, nimimerkki, viesti);
+            res.redirect("/alue/" + alueId);
             return null;
         });
     }

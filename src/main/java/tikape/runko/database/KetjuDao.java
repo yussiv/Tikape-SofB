@@ -95,6 +95,20 @@ public class KetjuDao implements Dao<Ketju, Integer> {
 
         return ketjut;
     }
+    
+    public int getNewestKetju(Integer key) throws SQLException {
+        
+        Connection connection = database.getConnection();
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Ketju WHERE alue_id = ? ORDER BY id DESC LIMIT 1");
+        stmt.setObject(1, key);
+        
+        ResultSet rs = stmt.executeQuery();
+        int id = 0;
+        while (rs.next()) {            
+            id = rs.getInt("id");
+        }
+        return id;
+    }
 
     @Override
     public void delete(Integer key) throws SQLException {
@@ -105,6 +119,22 @@ public class KetjuDao implements Dao<Ketju, Integer> {
 
     @Override
     public void update(int id, String... args) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        Connection connection = database.getConnection();
+        PreparedStatement stmt = connection.prepareStatement("INSERT INTO Ketju(alue_id, nimi) VALUES(?, ?)");
+        
+        int alue_id = id;
+        String nimi = null;
+        for(String s: args){
+            //Alueen lisäyksessä args sisältää vain yhden arvon, alueen nimen.
+            nimi = s;
+        }
+        stmt.setInt(1, alue_id);
+        stmt.setString(2, nimi);
+        stmt.execute();
+        
+        stmt.close();
+        connection.close();
+
     }
 }
