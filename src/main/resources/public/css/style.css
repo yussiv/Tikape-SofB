@@ -44,6 +44,12 @@ a:active {
     color: #000;
 }
 
-.pagination, pagination-lg {
-    background-color: #990000 !important;
+.pagination > .active > a {
+    background-color: #900;
+    border-color: #900;
+}
+
+.pagination > .active > a:hover {
+    background-color: #a00;
+    border-color: #900;
 }
