@@ -73,3 +73,7 @@ a:active {
 #hidden {
     display: none;
 }
+
+figcaption {
+    font-size: 10px;
+}
