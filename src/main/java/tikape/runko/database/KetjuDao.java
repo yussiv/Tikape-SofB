@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import tikape.runko.Formatteri;
 import tikape.runko.domain.Ketju;
-import tikape.runko.domain.Viesti;
 
 /**
  *
@@ -78,24 +77,23 @@ public class KetjuDao implements Dao<Ketju, Integer> {
     public List<Ketju> findAllFromAlue(Integer key) throws SQLException {
 
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Ketju WHERE alue_id = ?");
+//        PreparedStatement count = connection.prepareStatement("select count(*) from alue a, ketju k where k.alue_id=a.id and  k.alue_id= ? ;");
+        PreparedStatement stmt = connection.prepareStatement("SELECT k.id as id, k.nimi as nimi, count(v.id) as viestit, max(v.aika) as timestamp FROM Ketju k, Viesti v WHERE k.id=v.ketju_id AND k.alue_id= ? GROUP BY k.nimi ORDER BY v.aika DESC;");
         stmt.setObject(1, key);
         
-        ViestiDao viestiDao = new ViestiDao(database);
-        
+//        ResultSet ketjutCount = count.executeQuery();
         ResultSet rs = stmt.executeQuery();
         List<Ketju> ketjut = new ArrayList<>();
         while (rs.next()) {
             Integer id = rs.getInt("id");
-            Integer alueId = rs.getInt("alue_id");
+            Integer alueId = key;
             String nimi = rs.getString("nimi");
-            Integer viestienMaara = viestiDao.findCountByKetjuId(id);
-            Viesti viimeisinViesti = viestiDao.findLastViestiByKetjuId(id);
-            String timestamp = viimeisinViesti == null ? "" : viimeisinViesti.getAika();
+            Integer viestienMaara = rs.getInt("viestit");
+            String timestamp = rs.getString("timestamp");
 
             ketjut.add(new Ketju(id, alueId, nimi, viestienMaara, new Formatteri().formatoi(timestamp)));
         }
-
+        
         rs.close();
         stmt.close();
         connection.close();
