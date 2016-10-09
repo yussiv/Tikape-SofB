@@ -6,9 +6,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class Formatteri {
+public final class Formatteri {
 
-    private String stringToDateFormat;
+    private final String stringToDateFormat;
     private String dateToStringFormat;
     private String dateString;
 
@@ -17,7 +17,7 @@ public class Formatteri {
     }
 
     public Formatteri() {
-        this.stringToDateFormat = "yyyy-MM-dd hh:mm:ss";
+        this.stringToDateFormat = "yyyy-MM-dd HH:mm:ss";
         this.dateToStringFormat = "dd.MM.yyyy HH:mm";
     }
 
@@ -38,9 +38,19 @@ public class Formatteri {
             aikaNyt.set(10, 3);
 
             if (aikaNyt.get(Calendar.YEAR) == postausAika.get(Calendar.YEAR) && aikaNyt.get(Calendar.MONTH) == postausAika.get(Calendar.MONTH) && aikaNyt.get(Calendar.DAY_OF_MONTH) == postausAika.get(Calendar.DAY_OF_MONTH)) {
-                dateString = "Tänään kello " + postausAika.get(11) + "." + postausAika.get(12);
+                dateString = "Tänään kello " + postausAika.get(11) + ".";
+                if (postausAika.get(12) < 10) {
+                    dateString += "0" +  postausAika.get(12);
+                } else {
+                    dateString += postausAika.get(12);
+                }
             } else if(aikaNyt.get(Calendar.YEAR) == postausAika.get(Calendar.YEAR) && aikaNyt.get(Calendar.MONTH) == postausAika.get(Calendar.MONTH) && aikaNyt.get(Calendar.DAY_OF_MONTH) - postausAika.get(Calendar.DAY_OF_MONTH) == 1) {
-                dateString = "Eilen kello " + postausAika.get(11) + "." + postausAika.get(12);
+                dateString = "Eilen kello " + postausAika.get(11) + ".";
+                if (postausAika.get(12) < 10) {
+                    dateString += "0" +  postausAika.get(12);
+                } else {
+                    dateString += postausAika.get(12);
+                }
             } else {
                 Date postausAikaDate = postausAika.getTime();
                 SimpleDateFormat sdf2 = new SimpleDateFormat(dateToStringFormat);
