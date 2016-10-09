@@ -12,15 +12,15 @@
                 <form method="post" th:action="${'/alue/' + alue.id}">
                     <div class="form-group">
                         <label for="name">Nimimerkki</label>
-                        <input type="textarea" class="form-control" id="name" name="nimimerkki" placeholder="Nimesi" />
+                        <input type="textarea" class="form-control" id="name" name="nimimerkki" placeholder="Nimesi" required="required" />
                     </div>
                     <div class="form-group">
                         <label for="title">Ketjun nimi</label>
-                        <input type="textarea" class="form-control" id="title" name="otsikko" placeholder="Ketjun nimi" />
+                        <input type="textarea" class="form-control" id="title" name="otsikko" placeholder="Ketjun nimi" required="required" />
                     </div>
                     <div class="form-group">
                         <label for="message">Viesti</label>
-                        <textarea class="form-control" id="message" name="viesti" placeholder="Kirjoita viestisi t&auml;h&auml;n..." style="height: 140px;"></textarea>
+                        <textarea class="form-control" id="message" name="viesti" placeholder="Kirjoita viestisi t&auml;h&auml;n..." style="height: 140px;" required="required"></textarea>
                     </div>
                     <button type="submit" class="btn btn-danger" style="margin-bottom: 140px;">L&auml;het&auml;</button>
                 </form> 
