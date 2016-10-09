@@ -22,7 +22,7 @@ import tikape.runko.Formatteri;
 public class AlueDao implements Dao<Alue, Integer> {
     
     private Database database;
-    Formatteri formatter = new Formatteri();
+//    Formatteri formatter = new Formatteri();
     
     public AlueDao(Database database) {
         this.database = database;
@@ -69,7 +69,7 @@ public class AlueDao implements Dao<Alue, Integer> {
                 Integer viestienMaara = viestiDao.findCountByAreaId(id);
                 Viesti viimeisinViesti = viestiDao.findLastViestiByAreaId(id);
                 String timestamp = viimeisinViesti == null ? "" : viimeisinViesti.getAika();
-                String aika = formatter.formatoi(timestamp);
+                String aika = Formatteri.formatoi(timestamp);
                 alueet.add(new Alue(id, nimi, viestienMaara, aika));
         }
 

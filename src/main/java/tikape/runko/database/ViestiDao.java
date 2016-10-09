@@ -92,7 +92,7 @@ public class ViestiDao implements Dao<Viesti, Integer>  {
             String aika = rs.getString("aika");
             String nimimerkki = rs.getString("nimimerkki");
 
-            viestit.add(new Viesti(id, ketjuId, sisalto, new Formatteri().formatoi(aika), nimimerkki));
+            viestit.add(new Viesti(id, ketjuId, sisalto, Formatteri.formatoi(aika), nimimerkki));
         }
 
         rs.close();

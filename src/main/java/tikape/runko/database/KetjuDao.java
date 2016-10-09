@@ -91,7 +91,7 @@ public class KetjuDao implements Dao<Ketju, Integer> {
             Integer viestienMaara = rs.getInt("viestit");
             String timestamp = rs.getString("timestamp");
 
-            ketjut.add(new Ketju(id, alueId, nimi, viestienMaara, new Formatteri().formatoi(timestamp)));
+            ketjut.add(new Ketju(id, alueId, nimi, viestienMaara, Formatteri.formatoi(timestamp)));
         }
         
         rs.close();
