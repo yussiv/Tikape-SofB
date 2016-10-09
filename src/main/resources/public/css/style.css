@@ -69,6 +69,7 @@ a:active {
     background-color: #900;
     border-color: #a00;
     margin-top: 30px;
+    outline: none !important;
 }
 
 #hidden {
