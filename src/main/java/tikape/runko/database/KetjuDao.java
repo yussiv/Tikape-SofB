@@ -132,7 +132,7 @@ public class KetjuDao implements Dao<Ketju, Integer> {
         int alue_id = id;
         String nimi = null;
         for(String s: args){
-            //Ketjun avauksessa args sisältää vain yhden arvon, alueen nimen.
+            //Ketjun avauksessa args sisältää vain yhden arvon, ketjun nimen.
             nimi = s;
         }
         stmt.setInt(1, alue_id);
