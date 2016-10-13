@@ -1,18 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package tikape.runko.database;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import tikape.runko.domain.Alue;
-import tikape.runko.domain.Viesti;
 import tikape.runko.Formatteri;
 
 /**
@@ -22,7 +13,6 @@ import tikape.runko.Formatteri;
 public class AlueDao implements Dao<Alue, Integer> {
     
     private Database database;
-//    Formatteri formatter = new Formatteri();
     
     public AlueDao(Database database) {
         this.database = database;
@@ -30,76 +20,46 @@ public class AlueDao implements Dao<Alue, Integer> {
     
     @Override
     public Alue findOne(Integer key) throws SQLException {
-        Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Alue WHERE id = ?");
-        stmt.setObject(1, key);
-
-        ResultSet rs = stmt.executeQuery();
-        boolean hasOne = rs.next();
-        if (!hasOne) {
+        String query = "SELECT * FROM Alue WHERE id = ?";
+        List<Alue> areas = database.queryAndCollect(query, 
+                rs -> new Alue(
+                        rs.getInt("id"), 
+                        rs.getString("nimi")
+                ), key);
+        
+        if(areas.size() != 1)
             return null;
-        }
-
-        Integer id = rs.getInt("id");
-        String nimi = rs.getString("nimi");
-
-        Alue o = new Alue(id, nimi);
-
-        rs.close();
-        stmt.close();
-        connection.close();
-
-        return o;
+        
+        return areas.get(0);
     }
     
     @Override
     public List<Alue> findAll() throws SQLException {
-
-        Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Alue");
-
-        ResultSet rs = stmt.executeQuery();
-        List<Alue> alueet = new ArrayList<>();
+        String query = "SELECT A.id, A.nimi, COUNT(V.id) as viestit, MAX(V.aika) as timestamp "
+                + "FROM Alue A JOIN Ketju K ON K.alue_id = A.id JOIN Viesti V ON V.ketju_id = K.id "
+                + "GROUP BY A.nimi ORDER BY timestamp DESC";
         
-        ViestiDao viestiDao = new ViestiDao(database);
-        
-        while (rs.next()) {
-                Integer id = rs.getInt("id");
-                String nimi = rs.getString("nimi");
-                Integer viestienMaara = viestiDao.findCountByAreaId(id);
-                Viesti viimeisinViesti = viestiDao.findLastViestiByAreaId(id);
-                String timestamp = viimeisinViesti == null ? "" : viimeisinViesti.getAika();
-                String aika = Formatteri.formatoi(timestamp);
-                alueet.add(new Alue(id, nimi, viestienMaara, aika));
-        }
-
-        rs.close();
-        stmt.close();
-        connection.close();
-
-        return alueet;
+        return database.queryAndCollect(query, 
+                rs -> new Alue(
+                    rs.getInt("id"),
+                    rs.getString("nimi"),
+                    rs.getInt("viestit"),
+                    Formatteri.formatoi(rs.getString("timestamp"))
+                )
+        );
     }
 
     @Override
     public void delete(Integer key) throws SQLException {
-        // ei toteutettu
+        database.update("DELETE FROM Alue WHERE id = ?", key);
     }
+    
     @Override
     public void update(int id, String... args) throws SQLException {
-        
-        Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("INSERT INTO Alue(nimi) VALUES(?)");
-        
-        String nimi = null;
-        for(String s: args){
-            //Alueen lisäyksessä args sisältää vain yhden arvon, alueen nimen.
-            nimi = s;
-        }
-        stmt.setString(1, nimi);
-        stmt.execute();
-        
-        stmt.close();
-        connection.close();
-
+        // Not implemented
+    }
+    
+    public void updateName(int id, String name) throws SQLException {
+        database.update("UPDATE Alue SET nimi = ? WHERE id = ?", id, name);
     }
 }
