@@ -1,6 +1,9 @@
 
 package tikape.runko.database;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import tikape.runko.domain.Alue;
@@ -16,6 +19,22 @@ public class AlueDao implements Dao<Alue, Integer> {
     
     public AlueDao(Database database) {
         this.database = database;
+    }
+    
+    public int create(String name) throws SQLException {
+        Connection conn = database.getConnection();
+        PreparedStatement stm = conn.prepareStatement("INSERT INTO Alue (nimi) VALUES (?)");
+        stm.setString(1, name);
+        stm.execute();
+        // haetaan viimeksi luotu id
+        ResultSet rs = conn.createStatement().executeQuery("SELECT last_insert_rowid() as id");
+        
+        int id = rs.next() ? rs.getInt("id") : -1;
+        
+        stm.close();
+        conn.close();
+        
+        return id;
     }
     
     @Override

@@ -118,7 +118,7 @@ public class KetjuDao implements Dao<Ketju, Integer> {
 
     @Override
     public void delete(Integer key) throws SQLException {
-        // ei toteutettu
+        database.update("DELETE FROM Ketju WHERE id = ?", key);
     }
 
    

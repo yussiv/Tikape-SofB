@@ -9,6 +9,7 @@ import tikape.runko.database.Database;
 import tikape.runko.database.AlueDao;
 import tikape.runko.database.KetjuDao;
 import tikape.runko.database.ViestiDao;
+import tikape.runko.domain.Ketju;
 
 public class Main {
 
@@ -51,7 +52,10 @@ public class Main {
 
         post("/", (req, res) -> {
             String nimi = req.queryParams("alue_nimi");
-            alueDao.update(0, nimi); //0 ei tee mitään
+            int alueId = alueDao.create(nimi);
+            if(alueId > 0) {
+                res.redirect("/alue/" + alueId);
+            }
             res.redirect("/");
             return null;
         });
@@ -64,6 +68,19 @@ public class Main {
             viestiDao.update(ketjuId, nimimerkki, viesti);
             res.redirect("/ketju/" + ketjuId);
             return null;
+        });
+        
+        // Ketjun poisto
+        post("/ketju/:id/delete", (req, res) -> {
+            int ketjuId = Integer.parseInt(req.params("id"));
+            Ketju ketju = ketjuDao.findOne(ketjuId);
+            if(ketju != null) {
+                int alueId = ketju.getAlueId();
+                ketjuDao.delete(ketjuId);
+                res.redirect("/alue/" + alueId);
+            }
+            res.redirect("/");
+            return "";
         });
         
         post("/alue/:id", (req, res) -> {
@@ -79,6 +96,14 @@ public class Main {
             //avataan uusi ketju
             viestiDao.update(ketjuId, nimimerkki, viesti);
             res.redirect("/alue/" + alueId);
+            return null;
+        });
+        
+        // Alueen poisto
+        post("/alue/:id/delete", (req, res) -> {
+            int alueId = Integer.parseInt(req.params("id"));
+            alueDao.delete(alueId);
+            res.redirect("/");
             return null;
         });
     }
