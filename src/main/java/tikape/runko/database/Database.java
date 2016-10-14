@@ -14,6 +14,10 @@ public class Database<T> {
         this.address = address;
         init();
     }
+    
+    public boolean isPostgres() {
+        return this.address.contains("postgres");
+    }
 
     public Connection getConnection() throws SQLException {
 //        if (this.address.contains("postgres")) {

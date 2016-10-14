@@ -23,16 +23,27 @@ public class AlueDao implements Dao<Alue, Integer> {
     
     public int create(String name) throws SQLException {
         Connection conn = database.getConnection();
-        PreparedStatement stm = conn.prepareStatement("INSERT INTO Alue (nimi) VALUES (?)");
-        stm.setString(1, name);
-        stm.execute();
-        // haetaan viimeksi luotu id
-        ResultSet rs = conn.createStatement().executeQuery("SELECT last_insert_rowid() as id");
         
-        int id = rs.next() ? rs.getInt("id") : -1;
+        int id = -1;
         
-        stm.close();
-        conn.close();
+        if(database.isPostgres()) {
+            List<Integer> ids = database.queryAndCollect("INSERT INTO Alue (nimi) VALUES (?) RETURNING id", rs -> rs.getInt("id"), name);
+            if(ids.size() == 1)
+                id = ids.get(0);
+        }
+        else {
+            PreparedStatement stm = conn.prepareStatement("INSERT INTO Alue (nimi) VALUES (?)");
+            stm.setString(1, name);
+            stm.execute();
+            // haetaan viimeksi luotu id
+            ResultSet rs = conn.createStatement().executeQuery("SELECT last_insert_rowid() as id");
+
+            if(rs.next())
+                id = rs.getInt("id");
+
+            stm.close();
+            conn.close();
+        }
         
         return id;
     }
