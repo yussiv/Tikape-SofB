@@ -26,6 +26,10 @@ public class ViestiDao implements Dao<Viesti, Integer>  {
         this.database = database;
     }
     
+    public void create(int ketjuId, String nimimerkki, String viesti) throws SQLException {
+        database.update("INSERT INTO Viesti(ketju_id, sisalto, aika, nimimerkki) VALUES(?, ?, CURRENT_TIMESTAMP, ?)", ketjuId, viesti, nimimerkki);
+    }
+    
     @Override
     public Viesti findOne(Integer key) throws SQLException {
         Connection connection = database.getConnection();
@@ -106,78 +110,9 @@ public class ViestiDao implements Dao<Viesti, Integer>  {
     public void delete(Integer key) throws SQLException {
         // ei toteutettu
     }
-//    
+    
     @Override
     public void update(int ketjuId, String... args) throws SQLException {
-        Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("INSERT INTO Viesti(ketju_id, sisalto, aika, nimimerkki) VALUES(?, ?, CURRENT_TIMESTAMP, ?)");
-        
-        String nimimerkki = null;
-        String sisalto = null;
-        
-        //args sisältää 2 arvoa, nimimerkki ja sisältö. Asetetaan 1. nimimerkiksi ja 2. sisällöksi.
-        for(String s: args){
-            if(nimimerkki == null){
-                nimimerkki = s;
-            }else{
-                sisalto = s;
-            }
-        }
-        stmt.setInt(1, ketjuId);
-        stmt.setString(2, sisalto);
-        stmt.setString(3, nimimerkki);
-        
-        stmt.execute();
-        
-        stmt.close();
-        connection.close();
-    }
-
-    public Integer findCountByAreaId(Integer id) throws SQLException {
-        List<Integer> counts = database.queryAndCollect("SELECT COUNT(*) AS count FROM Viesti V JOIN Ketju K ON K.id = V.ketju_id WHERE K.alue_id = ?", rs -> rs.getInt("count"), id);
-        if(counts.isEmpty())
-            return 0;
-        else
-            return counts.get(0);
-    }
-    
-    public Viesti findLastViestiByAreaId(Integer id) throws SQLException {
-        List<Viesti> viestit = database.queryAndCollect(
-                "SELECT * FROM Viesti V JOIN Ketju K ON K.id = V.ketju_id WHERE K.alue_id = ? ORDER BY aika DESC LIMIT 1", 
-                rs -> new Viesti(
-                        rs.getInt("id"), 
-                        rs.getInt("ketju_id"),
-                        rs.getString("sisalto"),
-                        rs.getString("aika"),
-                        rs.getString("nimimerkki")
-                ), id);
-        if(viestit.isEmpty())
-            return null;
-        else
-            return viestit.get(0);
-    }
-    
-    public Integer findCountByKetjuId(Integer id) throws SQLException {
-        List<Integer> counts = database.queryAndCollect("SELECT COUNT(*) AS count FROM Viesti V WHERE V.ketju_id = ?", rs -> rs.getInt("count"), id);
-        if(counts.isEmpty())
-            return 0;
-        else
-            return counts.get(0);
-    }
-    
-    public Viesti findLastViestiByKetjuId(Integer id) throws SQLException {
-        List<Viesti> viestit = database.queryAndCollect(
-                "SELECT * FROM Viesti V WHERE V.ketju_id = ? ORDER BY aika DESC LIMIT 1", 
-                rs -> new Viesti(
-                        rs.getInt("id"), 
-                        rs.getInt("ketju_id"),
-                        rs.getString("sisalto"),
-                        rs.getString("aika"),
-                        rs.getString("nimimerkki")
-                ), id);
-        if(viestit.isEmpty())
-            return null;
-        else
-            return viestit.get(0);
+       // nope, not here
     }
 }

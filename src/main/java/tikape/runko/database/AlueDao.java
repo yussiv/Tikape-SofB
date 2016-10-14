@@ -22,7 +22,6 @@ public class AlueDao implements Dao<Alue, Integer> {
     }
     
     public int create(String name) throws SQLException {
-        Connection conn = database.getConnection();
         int id = -1;
         
         if(database.isPostgres()) {
@@ -33,6 +32,7 @@ public class AlueDao implements Dao<Alue, Integer> {
         }
         else {
             // SQlitellä tehdään pitkän kaavan mukaan
+            Connection conn = database.getConnection();
             PreparedStatement stm = conn.prepareStatement("INSERT INTO Alue (nimi) VALUES (?)");
             stm.setString(1, name);
             stm.execute();

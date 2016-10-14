@@ -81,18 +81,19 @@ public class Main {
             String otsikko = InputScrubber.clean(req.queryParams("otsikko"));
             String viesti = InputScrubber.clean(req.queryParams("viesti"));
             int alueId = Integer.parseInt(req.params("id"));
-            if(!nimimerkki.isEmpty() && !otsikko.isEmpty() && !viesti.isEmpty()) {
-                ketjuDao.update(alueId, otsikko);
-                //haetaan äsken avatun ketjun id
-                int ketjuId = ketjuDao.getNewestKetju(alueId);
-                //avataan uusi ketju
-                viestiDao.update(ketjuId, nimimerkki, viesti);
-                res.redirect("/alue/" + alueId + "/" + ketjuId);
-            } else {
-                res.redirect("/alue/" + alueId);
-            }
             
-            return null;
+            if(!nimimerkki.isEmpty() && !otsikko.isEmpty() && !viesti.isEmpty()) {
+                int ketjuId = ketjuDao.create(alueId, otsikko);
+                if(ketjuId > 0) {
+                    // lisätään ensimmäinen viesti
+                    viestiDao.create(ketjuId, nimimerkki, viesti);
+                    res.redirect("/ketju/" + ketjuId);
+                    return "";
+                } 
+            } 
+            res.redirect("/alue/" + alueId);
+            
+            return "";
         });
 
         // Lisää viestin
