@@ -103,7 +103,7 @@ public class Main {
             int ketjuId = Integer.parseInt(req.params("id"));
             
             if(!nimimerkki.isEmpty() && !viesti.isEmpty())
-                viestiDao.update(ketjuId, nimimerkki, viesti);
+                viestiDao.create(ketjuId, nimimerkki, viesti);
             
             res.redirect("/ketju/" + ketjuId);
             return null;
