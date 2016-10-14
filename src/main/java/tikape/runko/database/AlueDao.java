@@ -79,8 +79,8 @@ public class AlueDao implements Dao<Alue, Integer> {
                     rs.getInt("id"),
                     rs.getString("nimi"),
                     rs.getInt("viestit"),
-//                    Formatteri.formatoi(rs.getString("timestamp"))
-                    rs.getString("timestamp")
+                    Formatteri.formatoi(rs.getString("timestamp"))
+//                    rs.getString("timestamp")
                 )
         );
     }
