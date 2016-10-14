@@ -78,7 +78,7 @@ public class KetjuDao implements Dao<Ketju, Integer> {
 
         Connection connection = database.getConnection();
 //        PreparedStatement count = connection.prepareStatement("select count(*) from alue a, ketju k where k.alue_id=a.id and  k.alue_id= ? ;");
-        PreparedStatement stmt = connection.prepareStatement("SELECT k.id as id, k.nimi as nimi, count(v.id) as viestit, max(v.aika) as timestamp FROM Ketju k, Viesti v WHERE k.id=v.ketju_id AND k.alue_id= ? GROUP BY k.nimi ORDER BY v.aika DESC;");
+        PreparedStatement stmt = connection.prepareStatement("SELECT k.id as id, k.nimi as nimi, count(v.id) as viestit, max(v.aika) as timestamp FROM Ketju k, Viesti v WHERE k.id=v.ketju_id AND k.alue_id= ? GROUP BY k.id ORDER BY v.aika DESC;");
         stmt.setObject(1, key);
         
 //        ResultSet ketjutCount = count.executeQuery();
