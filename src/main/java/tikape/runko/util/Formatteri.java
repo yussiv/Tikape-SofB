@@ -23,7 +23,7 @@ public final class Formatteri {
 
             Calendar postausAika = new GregorianCalendar();
             postausAika.setTime(dateTimeGMT);
-            postausAika.add(10, 3);
+//            postausAika.add(10, 3);
 
             Calendar aikaNyt = new GregorianCalendar();
             Date aikaNytDate = new Date();
