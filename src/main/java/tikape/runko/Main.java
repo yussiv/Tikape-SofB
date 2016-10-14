@@ -14,16 +14,23 @@ import tikape.runko.domain.Ketju;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        Database database = new Database("jdbc:sqlite:testi.db");
-        //database.init();
-
+        // käytetään oletuksena paikallista sqlite-tietokantaa
+        String jdbcOsoite = "jdbc:sqlite:testi.db";
+        // jos heroku antaa käyttöömme tietokantaosoitteen, otetaan se käyttöön
+        if (System.getenv("DATABASE_URL") != null) {
+            jdbcOsoite = System.getenv("DATABASE_URL");
+        } 
+        Database database = new Database(jdbcOsoite);
+        
         Spark.staticFileLocation("/public");
+        
         AlueDao alueDao = new AlueDao(database);
         KetjuDao ketjuDao = new KetjuDao(database);
         ViestiDao viestiDao = new ViestiDao(database);
 
         // asetetaan portti jos heroku antaa PORT-ympäristömuuttujan
         port(getHerokuAssignedPort());
+        
 
         get("/", (req, res) -> {
             HashMap map = new HashMap<>();
