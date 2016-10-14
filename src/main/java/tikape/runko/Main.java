@@ -21,11 +21,9 @@ public class Main {
         AlueDao alueDao = new AlueDao(database);
         KetjuDao ketjuDao = new KetjuDao(database);
         ViestiDao viestiDao = new ViestiDao(database);
-        
+
         // asetetaan portti jos heroku antaa PORT-ympäristömuuttujan
-        if (System.getenv("PORT") != null) {
-            port(Integer.valueOf(System.getenv("PORT")));
-        }
+        port(getHerokuAssignedPort());
 
         get("/", (req, res) -> {
             HashMap map = new HashMap<>();
@@ -58,7 +56,7 @@ public class Main {
         post("/", (req, res) -> {
             String nimi = req.queryParams("alue_nimi");
             int alueId = alueDao.create(nimi);
-            if(alueId > 0) {
+            if (alueId > 0) {
                 res.redirect("/alue/" + alueId);
             }
             res.redirect("/");
@@ -74,12 +72,12 @@ public class Main {
             res.redirect("/ketju/" + ketjuId);
             return null;
         });
-        
+
         // Ketjun poisto
         post("/ketju/:id/delete", (req, res) -> {
             int ketjuId = Integer.parseInt(req.params("id"));
             Ketju ketju = ketjuDao.findOne(ketjuId);
-            if(ketju != null) {
+            if (ketju != null) {
                 int alueId = ketju.getAlueId();
                 ketjuDao.delete(ketjuId);
                 res.redirect("/alue/" + alueId);
@@ -87,7 +85,7 @@ public class Main {
             res.redirect("/");
             return "";
         });
-        
+
         post("/alue/:id", (req, res) -> {
 
             String nimimerkki = req.queryParams("nimimerkki");
@@ -103,7 +101,7 @@ public class Main {
             res.redirect("/alue/" + alueId);
             return null;
         });
-        
+
         // Alueen poisto
         post("/alue/:id/delete", (req, res) -> {
             int alueId = Integer.parseInt(req.params("id"));
@@ -111,5 +109,13 @@ public class Main {
             res.redirect("/");
             return null;
         });
+    }
+
+    static int getHerokuAssignedPort() {
+        ProcessBuilder processBuilder = new ProcessBuilder();
+        if (processBuilder.environment().get("PORT") != null) {
+            return Integer.parseInt(processBuilder.environment().get("PORT"));
+        }
+        return 4567; //return default port if heroku-port isn't set (i.e. on localhost)
     }
 }
