@@ -8,11 +8,11 @@ import java.util.GregorianCalendar;
 
 public final class Formatteri {
 
-    private static String stringToDateFormat  = "yyyy-MM-dd HH:mm:ss";
-    private static String dateToStringFormat  = "dd.MM.yyyy HH:mm";
+    private static final String stringToDateFormat  = "yyyy-MM-dd HH:mm:ss";
+    private static final String dateToStringFormat  = "dd.MM.yyyy HH:mm";
     private static String dateString;
 
-    public Formatteri() {
+    private Formatteri() {
     }
 
     public static String formatoi(String date) {
