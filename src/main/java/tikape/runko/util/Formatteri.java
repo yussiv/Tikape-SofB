@@ -29,7 +29,7 @@ public final class Formatteri {
             Date aikaNytDate = new Date();
             aikaNytDate.getTime();
             aikaNyt.setTime(aikaNytDate);
-            aikaNyt.set(10, 1);
+//            aikaNyt.set(10, 1);
 
             if (aikaNyt.get(Calendar.YEAR) == postausAika.get(Calendar.YEAR) && aikaNyt.get(Calendar.MONTH) == postausAika.get(Calendar.MONTH) && aikaNyt.get(Calendar.DAY_OF_MONTH) == postausAika.get(Calendar.DAY_OF_MONTH)) {
                 dateString = "Tänään kello " + postausAika.get(11) + ".";
