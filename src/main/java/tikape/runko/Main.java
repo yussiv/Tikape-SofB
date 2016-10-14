@@ -17,13 +17,12 @@ public class Main {
         // käytetään oletuksena paikallista sqlite-tietokantaa
         String jdbcOsoite = "jdbc:sqlite:testi.db";
         // jos heroku antaa käyttöömme tietokantaosoitteen, otetaan se käyttöön
-        if (System.getenv("JDBC_DATABASE_URL") != null) {
-            jdbcOsoite = System.getenv("JDBC_DATABASE_URL");
+        if (System.getenv("DATABASE_URL") != null) {
+            jdbcOsoite = System.getenv("DATABASE_URL");
         } 
         Database database = new Database(jdbcOsoite);
         
         Spark.staticFileLocation("/public");
-        
         AlueDao alueDao = new AlueDao(database);
         KetjuDao ketjuDao = new KetjuDao(database);
         ViestiDao viestiDao = new ViestiDao(database);
