@@ -56,7 +56,7 @@ public class AlueDao implements Dao<Alue, Integer> {
     public List<Alue> findAll() throws SQLException {
         String query = "SELECT A.id, A.nimi, COUNT(V.id) as viestit, MAX(V.aika) as timestamp "
                 + "FROM Alue A JOIN Ketju K ON K.alue_id = A.id JOIN Viesti V ON V.ketju_id = K.id "
-                + "GROUP BY A.nimi ORDER BY A.nimi DESC";
+                + "GROUP BY A.nimi ORDER BY A.nimi ASC";
         
         return database.queryAndCollect(query, 
                 rs -> new Alue(
