@@ -10,6 +10,7 @@ import tikape.runko.database.AlueDao;
 import tikape.runko.database.KetjuDao;
 import tikape.runko.database.ViestiDao;
 import tikape.runko.domain.Ketju;
+import tikape.runko.util.InputScrubber;
 
 public class Main {
 
@@ -31,6 +32,7 @@ public class Main {
         port(getHerokuAssignedPort());
         
 
+        // Listaa alueet
         get("/", (req, res) -> {
             HashMap map = new HashMap<>();
             map.put("alueet", alueDao.findAll());
@@ -38,6 +40,7 @@ public class Main {
             return new ModelAndView(map, "index");
         }, new ThymeleafTemplateEngine());
 
+        // Listaa Alueen ketjut
         get("/alue/:id", (req, res) -> {
             int id = Integer.parseInt(req.params("id"));
             HashMap map = new HashMap<>();
@@ -47,6 +50,7 @@ public class Main {
             return new ModelAndView(map, "alue");
         }, new ThymeleafTemplateEngine());
 
+        // Listaa ketjun viestit
         get("/ketju/:id", (req, res) -> {
             int id = Integer.parseInt(req.params("id"));
             int alueId = ketjuDao.findOne(id).getAlueId();
@@ -54,32 +58,65 @@ public class Main {
             map.put("viestit", viestiDao.findAllFromKetju(id));
             map.put("alue", alueDao.findOne(alueId));
             map.put("ketju", ketjuDao.findOne(id));
-//            map.put("viesti", viestiDao.findOne(id));
 
             return new ModelAndView(map, "ketju");
         }, new ThymeleafTemplateEngine());
 
+        // Lisää alueen
         post("/", (req, res) -> {
-            String nimi = req.queryParams("alue_nimi");
-            int alueId = alueDao.create(nimi);
-            if (alueId > 0) {
-                res.redirect("/alue/" + alueId);
+            String nimi = InputScrubber.clean(req.queryParams("alue_nimi"));
+            if(!nimi.isEmpty()) {
+                int alueId = alueDao.create(nimi);
+                if (alueId > 0) {
+                    res.redirect("/alue/" + alueId);
+                }
             }
             res.redirect("/");
             return null;
         });
-
-        post("/ketju/:id", (req, res) -> {
-
-            String nimimerkki = req.queryParams("nimimerkki");
-            String viesti = req.queryParams("viesti");
-            int ketjuId = Integer.parseInt(req.params("id"));
-            viestiDao.update(ketjuId, nimimerkki, viesti);
-            res.redirect("/ketju/" + ketjuId);
+        
+        // Lisää ketjun
+        post("/alue/:id", (req, res) -> {
+            String nimimerkki = InputScrubber.clean(req.queryParams("nimimerkki"));
+            String otsikko = InputScrubber.clean(req.queryParams("otsikko"));
+            String viesti = InputScrubber.clean(req.queryParams("viesti"));
+            int alueId = Integer.parseInt(req.params("id"));
+            if(!nimimerkki.isEmpty() && !otsikko.isEmpty() && !viesti.isEmpty()) {
+                ketjuDao.update(alueId, otsikko);
+                //haetaan äsken avatun ketjun id
+                int ketjuId = ketjuDao.getNewestKetju(alueId);
+                //avataan uusi ketju
+                viestiDao.update(ketjuId, nimimerkki, viesti);
+                res.redirect("/alue/" + alueId + "/" + ketjuId);
+            } else {
+                res.redirect("/alue/" + alueId);
+            }
+            
             return null;
         });
 
-        // Ketjun poisto
+        // Lisää viestin
+        post("/ketju/:id", (req, res) -> {
+            String nimimerkki = InputScrubber.clean(req.queryParams("nimimerkki"));
+            String viesti = InputScrubber.clean(req.queryParams("viesti"));
+            int ketjuId = Integer.parseInt(req.params("id"));
+            
+            if(!nimimerkki.isEmpty() && !viesti.isEmpty())
+                viestiDao.update(ketjuId, nimimerkki, viesti);
+            
+            res.redirect("/ketju/" + ketjuId);
+            return null;
+        });
+        
+        // Poistaa alueen
+        post("/alue/:id/delete", (req, res) -> {
+            int alueId = Integer.parseInt(req.params("id"));
+            alueDao.delete(alueId);
+            res.redirect("/");
+            return null;
+        });
+
+        // Poistaa ketjun
         post("/ketju/:id/delete", (req, res) -> {
             int ketjuId = Integer.parseInt(req.params("id"));
             Ketju ketju = ketjuDao.findOne(ketjuId);
@@ -92,26 +129,10 @@ public class Main {
             return "";
         });
 
-        post("/alue/:id", (req, res) -> {
-
-            String nimimerkki = req.queryParams("nimimerkki");
-            String otsikko = req.queryParams("otsikko");
-            String viesti = req.queryParams("viesti");
-            int alueId = Integer.parseInt(req.params("id"));
-            //uuden ketjun avaus
-            ketjuDao.update(alueId, otsikko);
-            //haetaan äsken avatun ketjun id
-            int ketjuId = ketjuDao.getNewestKetju(alueId);
-            //avataan uusi ketju
-            viestiDao.update(ketjuId, nimimerkki, viesti);
-            res.redirect("/alue/" + alueId);
-            return null;
-        });
-
-        // Alueen poisto
-        post("/alue/:id/delete", (req, res) -> {
-            int alueId = Integer.parseInt(req.params("id"));
-            alueDao.delete(alueId);
+        // Poistaa viestin
+        post("/viesti/:id/delete", (req, res) -> {
+            int viestiId = Integer.parseInt(req.params("id"));
+            viestiDao.delete(viestiId);
             res.redirect("/");
             return null;
         });

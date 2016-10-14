@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import tikape.runko.domain.Alue;
-import tikape.runko.Formatteri;
+import tikape.runko.util.Formatteri;
 
 /**
  *
@@ -23,15 +23,16 @@ public class AlueDao implements Dao<Alue, Integer> {
     
     public int create(String name) throws SQLException {
         Connection conn = database.getConnection();
-        
         int id = -1;
         
         if(database.isPostgres()) {
+            // postgressistä saa palautusarvona viimeksi lisätyn id:n
             List<Integer> ids = database.queryAndCollect("INSERT INTO Alue (nimi) VALUES (?) RETURNING id", rs -> rs.getInt("id"), name);
             if(ids.size() == 1)
                 id = ids.get(0);
         }
         else {
+            // SQlitellä tehdään pitkän kaavan mukaan
             PreparedStatement stm = conn.prepareStatement("INSERT INTO Alue (nimi) VALUES (?)");
             stm.setString(1, name);
             stm.execute();
@@ -85,7 +86,7 @@ public class AlueDao implements Dao<Alue, Integer> {
 
     @Override
     public void delete(Integer key) throws SQLException {
-        database.update("DELETE FROM Alue WHERE id = ?", key);
+        //database.update("DELETE FROM Alue WHERE id = ?", key);
     }
     
     @Override

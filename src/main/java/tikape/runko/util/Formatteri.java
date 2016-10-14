@@ -1,4 +1,4 @@
-package tikape.runko;
+package tikape.runko.util;
 
 import java.util.Date;
 import java.text.ParseException;
@@ -52,7 +52,7 @@ public final class Formatteri {
             }
             return dateString;
             
-        } catch (ParseException e) {
+        } catch (Exception e) { // if all else fails, do nothing
             return "";
         }
     }

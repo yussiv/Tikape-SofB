@@ -28,7 +28,7 @@
                         <tbody>
                             <tr th:each="ketju: ${ketjut}">
                                 <td><a th:href="${'/ketju/' + ketju.id}" th:text="${ketju.nimi}">alueen nimi + linkki</a></td>
-                                <td th:text="${ketju.viestienMaara}">0</td>
+                                <td th:text="${ketju.viestienMaara ? ketju.viestienMaara : '0'}">0</td>
                                 <td th:text="${ketju.viimeisinViesti}">eilen tai joskus</td>
                             </tr>
                         </tbody>

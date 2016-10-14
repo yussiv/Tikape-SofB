@@ -6,7 +6,7 @@ import org.jsoup.examples.HtmlToPlainText;
 
 public final class InputScrubber {
 
-    public String clean(String string) {
+    public static String clean(String string) {
         return new HtmlToPlainText().getPlainText(Jsoup.parse(string)).trim();
     }
 }

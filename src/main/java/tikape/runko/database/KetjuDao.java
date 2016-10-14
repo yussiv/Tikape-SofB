@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import tikape.runko.Formatteri;
+import tikape.runko.util.Formatteri;
 import tikape.runko.domain.Ketju;
 
 /**
@@ -111,7 +111,7 @@ public class KetjuDao implements Dao<Ketju, Integer> {
 
     @Override
     public void delete(Integer key) throws SQLException {
-        database.update("DELETE FROM Ketju WHERE id = ?", key);
+        //database.update("DELETE FROM Ketju WHERE id = ?", key);
     }
 
     @Override
