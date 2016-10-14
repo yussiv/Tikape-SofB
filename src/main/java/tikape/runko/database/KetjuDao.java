@@ -83,7 +83,7 @@ public class KetjuDao implements Dao<Ketju, Integer> {
         
         String query = "SELECT k.id, k.nimi, max(vs.viestit) AS viestit, max(vs.timestamp) AS timestamp FROM (SELECT v.ketju_id,"
                 + " count(v.id) AS viestit, max(v.aika) AS timestamp FROM viesti v GROUP BY v.ketju_id) vs JOIN ketju k ON"
-                + " k.id = vs.ketju_id WHERE k.alue_id = ? GROUP BY k.id;";
+                + " k.id = vs.ketju_id WHERE k.alue_id = ? GROUP BY k.id ORDER BY timestamp ASC;";
 
         return database.queryAndCollect(query, rs -> new Ketju(
                 rs.getInt("id"),
