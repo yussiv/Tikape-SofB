@@ -71,7 +71,7 @@ public class AlueDao implements Dao<Alue, Integer> {
 //                + "GROUP BY A.id ORDER BY A.nimi ASC;";
                 
         String query = "SELECT a.id, a.nimi, max(vs.viestit) AS viestit, max(vs.timestamp) AS timestamp FROM (select k.alue_id, count(v.id)"
-                + " AS viestit, max(v.aika) AS timestamp FROM viesti v LEFT JOIN ketju k ON k.id = v.ketju_id GROUP BY k.alue_id) vs LEFT JOIN alue a"
+                + " AS viestit, max(v.aika) AS timestamp FROM viesti v JOIN ketju k ON k.id = v.ketju_id GROUP BY k.alue_id) vs FULL JOIN alue a"
                 + " ON a.id = vs.alue_id GROUP BY a.nimi, a.id ORDER BY a.nimi ASC;";
         return database.queryAndCollect(query, 
                 rs -> new Alue(
