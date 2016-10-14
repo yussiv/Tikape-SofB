@@ -138,7 +138,6 @@ public class Database<T> {
         // heroku käyttää SERIAL-avainsanaa uuden tunnuksen automaattiseen luomiseen
 //        lista.add("CREATE TABLE Tuote (id SERIAL PRIMARY KEY, nimi varchar(255));");
 //        lista.add("INSERT INTO Tuote (nimi) VALUES ('postgresql-tuote');");
-
         lista.add("CREATE TABLE Alue (id SERIAL PRIMARY KEY NOT NULL, nimi VARCHAR(200));");
         lista.add("CREATE TABLE Ketju (id SERIAL PRIMARY KEY NOT NULL, alue_id INT, nimi VARCHAR(200));");
         lista.add("CREATE TABLE Viesti (id SERIAL PRIMARY KEY NOT NULL, ketju_id INT, sisalto TEXT, aika TIMESTAMP WITHOUT TIME ZONE DEFAULT current_timestamp, nimimerkki VARCHAR(30));");
