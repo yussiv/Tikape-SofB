@@ -2,6 +2,7 @@ package tikape.runko;
 
 import java.util.HashMap;
 import spark.ModelAndView;
+import spark.Session;
 import spark.Spark;
 import static spark.Spark.*;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
@@ -31,6 +32,14 @@ public class Main {
         // asetetaan portti jos heroku antaa PORT-ympäristömuuttujan
         port(getHerokuAssignedPort());
         
+        // Session luonti ennen jokaista kutsua
+        before("*", (req, res) -> {
+            Session session = req.session(true);
+            // lisätään nimimerkki sessioon, niin käyttäjän ei tarvitse manuaalisesti syöttää sitä joka kerta
+            if (req.queryParams().contains("nimimerkki")) {
+                session.attribute("nimimerkki", InputScrubber.clean(req.queryParams("nimimerkki")));
+            }
+        });
 
         // Listaa alueet
         get("/", (req, res) -> {
@@ -46,6 +55,7 @@ public class Main {
             HashMap map = new HashMap<>();
             map.put("ketjut", ketjuDao.findAllFromAlue(id));
             map.put("alue", alueDao.findOne(id));
+            map.put("nimimerkki", req.session().attribute("nimimerkki"));
 
             return new ModelAndView(map, "alue");
         }, new ThymeleafTemplateEngine());
@@ -59,7 +69,12 @@ public class Main {
             map.put("viestit", viestiDao.findAllFromKetju(id));
             map.put("alue", alueDao.findOne(alueId));
             map.put("ketju", ketjuDao.findOne(id));
+<<<<<<< HEAD
             map.put("sivut", pg);
+=======
+            map.put("sivut", pageCount);
+            map.put("nimimerkki", req.session().attribute("nimimerkki"));
+>>>>>>> d4cc40fdbdec9aec2ced98e8f438a8136109bfec
 
             return new ModelAndView(map, "ketju");
         }, new ThymeleafTemplateEngine());
@@ -140,7 +155,7 @@ public class Main {
             return null;
         });
     }
-
+    // herokun porttinumeron palautus
     static int getHerokuAssignedPort() {
         ProcessBuilder processBuilder = new ProcessBuilder();
         if (processBuilder.environment().get("PORT") != null) {
