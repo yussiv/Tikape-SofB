@@ -39,7 +39,7 @@ public class Main {
             // lisätään nimimerkki sessioon, niin käyttäjän ei tarvitse manuaalisesti syöttää sitä joka kerta
             if (req.queryParams().contains("nimimerkki")) {
                 System.out.println("hep");
-                session.attribute("nimimerkki", req.queryParams("nimimerkki"));
+                session.attribute("nimimerkki", InputScrubber.clean(req.queryParams("nimimerkki")));
             }
         });
 
