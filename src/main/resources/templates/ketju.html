@@ -23,9 +23,9 @@
                         <div class="panel-footer" th:text="${viesti.aika}" style="background-color: #990000">aika</div>
                     </div >
                     <div th:if="${sivut} > 1">
-                        <ul class="pagination">
-                            <li class="active">1</li>
-                            <li>2</li>
+                        <ul class="pagination" th:each="i : ${#numbers.sequence(1, ${sivut})}">
+                            <li th:text="${ i }">1</li>
+                           
                         </ul>
                     </div>
                     <div th:include="fragment/layout :: breadcrumb" th:remove="tag"></div>
