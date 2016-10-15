@@ -35,10 +35,8 @@ public class Main {
         // Session luonti ennen jokaista kutsua
         before("*", (req, res) -> {
             Session session = req.session(true);
-            System.out.println("before!");
             // lisätään nimimerkki sessioon, niin käyttäjän ei tarvitse manuaalisesti syöttää sitä joka kerta
             if (req.queryParams().contains("nimimerkki")) {
-                System.out.println("hep");
                 session.attribute("nimimerkki", InputScrubber.clean(req.queryParams("nimimerkki")));
             }
         });
@@ -72,8 +70,6 @@ public class Main {
             map.put("alue", alueDao.findOne(alueId));
             map.put("ketju", ketjuDao.findOne(id));
             map.put("sivut", pageCount);
-            if(req.session().attributes().contains("nimimerkki"))
-                System.out.println("on olemassa!");
             map.put("nimimerkki", req.session().attribute("nimimerkki"));
 
             return new ModelAndView(map, "ketju");
@@ -155,7 +151,7 @@ public class Main {
             return null;
         });
     }
-
+    // herokun porttinumeron palautus
     static int getHerokuAssignedPort() {
         ProcessBuilder processBuilder = new ProcessBuilder();
         if (processBuilder.environment().get("PORT") != null) {
