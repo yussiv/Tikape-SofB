@@ -69,12 +69,9 @@ public class Main {
             map.put("viestit", viestiDao.findAllFromKetju(id));
             map.put("alue", alueDao.findOne(alueId));
             map.put("ketju", ketjuDao.findOne(id));
-<<<<<<< HEAD
             map.put("sivut", pg);
-=======
-            map.put("sivut", pageCount);
             map.put("nimimerkki", req.session().attribute("nimimerkki"));
->>>>>>> d4cc40fdbdec9aec2ced98e8f438a8136109bfec
+
 
             return new ModelAndView(map, "ketju");
         }, new ThymeleafTemplateEngine());
