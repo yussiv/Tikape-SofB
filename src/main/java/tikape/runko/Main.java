@@ -51,15 +51,15 @@ public class Main {
         }, new ThymeleafTemplateEngine());
 
         // Listaa ketjun viestit
-        get("/ketju/:id", (req, res) -> {
+        get("/ketju/:id/page?:pg", (req, res) -> {
             int id = Integer.parseInt(req.params("id"));
             int alueId = ketjuDao.findOne(id).getAlueId();
-            int pageCount = viestiDao.getPageCount(id);
+            int pg = viestiDao.getPageCount(id);
             HashMap map = new HashMap<>();
             map.put("viestit", viestiDao.findAllFromKetju(id));
             map.put("alue", alueDao.findOne(alueId));
             map.put("ketju", ketjuDao.findOne(id));
-            map.put("sivut", pageCount);
+            map.put("sivut", pg);
 
             return new ModelAndView(map, "ketju");
         }, new ThymeleafTemplateEngine());
