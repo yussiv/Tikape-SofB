@@ -52,18 +52,14 @@ public class Main {
 
         // Listaa ketjun viestit
         get("/ketju/:id", (req, res) -> {
-            String viesti = "jotaib";
             int id = Integer.parseInt(req.params("id"));
             int alueId = ketjuDao.findOne(id).getAlueId();
             int pageCount = viestiDao.getPageCount(id);
-            if (pageCount > 0) {
-                viesti = "success";
-            }
             HashMap map = new HashMap<>();
             map.put("viestit", viestiDao.findAllFromKetju(id));
             map.put("alue", alueDao.findOne(alueId));
             map.put("ketju", ketjuDao.findOne(id));
-            map.put("viesti", pageCount);
+            map.put("sivut", pageCount);
 
             return new ModelAndView(map, "ketju");
         }, new ThymeleafTemplateEngine());
