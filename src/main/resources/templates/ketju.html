@@ -22,7 +22,13 @@
                         <div class="panel-body" th:text="${viesti.sisalto}">sisalto</div>
                         <div class="panel-footer" th:text="${viesti.aika}" style="background-color: #990000">aika</div>
                     </div >
-                    <div th:if="${sivut} > 1" th:text="${sivut}">sivut</div>
+                    <div th:if="${sivut} > 1">
+                        <ul>
+                            <li>jotain</li>
+                            <li>muuta</li>
+                        </ul>
+                    </div>
+                    <div th:include="fragment/layout :: breadcrumb" th:remove="tag"></div>
                     <div th:include="fragment/form/add-message :: form" th:remove="tag"></div>
                     
                 </section>
