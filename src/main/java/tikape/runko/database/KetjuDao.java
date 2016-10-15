@@ -107,7 +107,7 @@ public class KetjuDao implements Dao<Ketju, Integer> {
         if(database.isPostgres())
             query = "SELECT k.id, k.nimi, max(vs.viestit) AS viestit, max(vs.timestamp) AS timestamp FROM (SELECT v.ketju_id,"
                 + " count(v.id) AS viestit, max(v.aika) AS timestamp FROM viesti v GROUP BY v.ketju_id) vs JOIN ketju k ON"
-                + " k.id = vs.ketju_id WHERE k.alue_id = ? GROUP BY k.id ORDER BY timestamp DESC;";
+                + " k.id = vs.ketju_id WHERE k.alue_id = ? GROUP BY k.id ORDER BY timestamp DESC LIMIT 10 OFFSET 0;";
         else
             query = "SELECT k.id as id, k.nimi as nimi, count(v.id) as viestit, max(v.aika) as timestamp FROM Ketju k, Viesti v "
                     + "WHERE k.id=v.ketju_id AND k.alue_id= ? GROUP BY k.id ORDER BY v.aika DESC;";
