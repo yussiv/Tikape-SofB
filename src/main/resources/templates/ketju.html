@@ -23,7 +23,7 @@
                         <div class="panel-footer" th:text="${viesti.aika}" style="background-color: #990000">aika</div>
                     </div >
                     <div th:if="${sivut} > 1">
-                        <ul class="pagination" th:each="i : ${#numbers.sequence(1, ${sivut})}">
+                        <ul class="pagination" th:each="i : ${#numbers.sequence(1, 5/1)}">
                             <li th:text="${ i }">1</li>
                            
                         </ul>
