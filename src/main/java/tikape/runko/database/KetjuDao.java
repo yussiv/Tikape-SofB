@@ -102,11 +102,6 @@ public class KetjuDao implements Dao<Ketju, Integer> {
     }
 
     public List<Ketju> findAllFromAlue(Integer key) throws SQLException {
-        String subQuery = "";
-//        String query = "SELECT K.id, K.nimi, T.viestit, T.timestamp "
-//                + "FROM (SELECT ketju_id, count(V.id) as viestit, max(V.aika) as timestamp FROM Viesti V GROUP BY ketju_id) T "
-//                + "JOIN Ketju K ON K.id = T.ketju_id WHERE K.alue_id = ? "
-//                + "GROUP BY K.id ORDER BY T.timestamp DESC;";
         
         String query = "SELECT k.id, k.nimi, max(vs.viestit) AS viestit, max(vs.timestamp) AS timestamp FROM (SELECT v.ketju_id,"
                 + " count(v.id) AS viestit, max(v.aika) AS timestamp FROM viesti v GROUP BY v.ketju_id) vs JOIN ketju k ON"

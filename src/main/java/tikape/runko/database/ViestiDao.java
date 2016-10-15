@@ -105,6 +105,16 @@ public class ViestiDao implements Dao<Viesti, Integer>  {
 
         return viestit;
     }
+    
+    public int getPageCount(Integer ketjuId) throws SQLException {
+        int count = -1;
+//        Connection connection = database.getConnection();
+//        PreparedStatement stmt = connection.prepareStatement("SELECT count(v.id) FROM Viesti v, Ketju k WHERE k.id=v.ketju_id AND ketju_id= ? ", ketjuId);
+        List<Integer> counts = database.queryAndCollect("SELECT count(v.id) AS c FROM Viesti v, Ketju k WHERE k.id=v.ketju_id AND ketju_id= ? ", rs -> rs.getInt("c"), ketjuId);
+            if(counts.size() == 1)
+                count = counts.get(0);
+            return count;
+    }
 
     @Override
     public void delete(Integer key) throws SQLException {

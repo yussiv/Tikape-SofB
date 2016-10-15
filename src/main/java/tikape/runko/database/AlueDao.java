@@ -76,7 +76,6 @@ public class AlueDao implements Dao<Alue, Integer> {
                     rs.getString("nimi"),
                     rs.getInt("viestit"),
                     Formatteri.formatoi(rs.getString("timestamp"))
-//                    rs.getString("timestamp")
                 )
         );
     }
