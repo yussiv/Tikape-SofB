@@ -12,7 +12,7 @@
                 <form method="post" th:action="${'/alue/' + alue.id}">
                     <div class="form-group">
                         <label for="name">Nimimerkki</label>
-                        <input type="textarea" class="form-control" id="name" name="nimimerkki" placeholder="Nimesi" required="required" />
+                        <input type="textarea" class="form-control" id="name" name="nimimerkki" placeholder="Nimesi" required="required" th:value="${nimimerkki}"/>
                     </div>
                     <div class="form-group">
                         <label for="title">Ketjun nimi</label>

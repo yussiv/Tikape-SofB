@@ -2,6 +2,7 @@ package tikape.runko;
 
 import java.util.HashMap;
 import spark.ModelAndView;
+import spark.Session;
 import spark.Spark;
 import static spark.Spark.*;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
@@ -31,6 +32,16 @@ public class Main {
         // asetetaan portti jos heroku antaa PORT-ympäristömuuttujan
         port(getHerokuAssignedPort());
         
+        // Session luonti ennen jokaista kutsua
+        before("*", (req, res) -> {
+            Session session = req.session(true);
+            System.out.println("before!");
+            // lisätään nimimerkki sessioon, niin käyttäjän ei tarvitse manuaalisesti syöttää sitä joka kerta
+            if (req.queryParams().contains("nimimerkki")) {
+                System.out.println("hep");
+                session.attribute("nimimerkki", req.queryParams("nimimerkki"));
+            }
+        });
 
         // Listaa alueet
         get("/", (req, res) -> {
@@ -46,6 +57,7 @@ public class Main {
             HashMap map = new HashMap<>();
             map.put("ketjut", ketjuDao.findAllFromAlue(id));
             map.put("alue", alueDao.findOne(id));
+            map.put("nimimerkki", req.session().attribute("nimimerkki"));
 
             return new ModelAndView(map, "alue");
         }, new ThymeleafTemplateEngine());
@@ -60,6 +72,9 @@ public class Main {
             map.put("alue", alueDao.findOne(alueId));
             map.put("ketju", ketjuDao.findOne(id));
             map.put("sivut", pageCount);
+            if(req.session().attributes().contains("nimimerkki"))
+                System.out.println("on olemassa!");
+            map.put("nimimerkki", req.session().attribute("nimimerkki"));
 
             return new ModelAndView(map, "ketju");
         }, new ThymeleafTemplateEngine());

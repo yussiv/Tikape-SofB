@@ -1,4 +1,3 @@
-
 package tikape.runko.database;
 
 import java.sql.Connection;
@@ -14,23 +13,23 @@ import tikape.runko.util.Formatteri;
  * @author kari
  */
 public class AlueDao implements Dao<Alue, Integer> {
-    
+
     private Database database;
-    
+
     public AlueDao(Database database) {
         this.database = database;
     }
-    
+
     public int create(String name) throws SQLException {
         int id = -1;
-        
-        if(database.isPostgres()) {
+
+        if (database.isPostgres()) {
             // postgressistä saa palautusarvona viimeksi lisätyn id:n
             List<Integer> ids = database.queryAndCollect("INSERT INTO Alue (nimi) VALUES (?) RETURNING id", rs -> rs.getInt("id"), name);
-            if(ids.size() == 1)
+            if (ids.size() == 1) {
                 id = ids.get(0);
-        }
-        else {
+            }
+        } else {
             // SQlitellä tehdään pitkän kaavan mukaan
             Connection conn = database.getConnection();
             PreparedStatement stm = conn.prepareStatement("INSERT INTO Alue (nimi) VALUES (?)");
@@ -39,43 +38,51 @@ public class AlueDao implements Dao<Alue, Integer> {
             // haetaan viimeksi luotu id
             ResultSet rs = conn.createStatement().executeQuery("SELECT last_insert_rowid() as id");
 
-            if(rs.next())
+            if (rs.next()) {
                 id = rs.getInt("id");
+            }
 
             stm.close();
             conn.close();
         }
-        
+
         return id;
     }
-    
+
     @Override
     public Alue findOne(Integer key) throws SQLException {
         String query = "SELECT * FROM Alue WHERE id = ?";
-        List<Alue> areas = database.queryAndCollect(query, 
+        List<Alue> areas = database.queryAndCollect(query,
                 rs -> new Alue(
-                        rs.getInt("id"), 
+                        rs.getInt("id"),
                         rs.getString("nimi")
                 ), key);
-        
-        if(areas.size() != 1)
+
+        if (areas.size() != 1) {
             return null;
-        
+        }
+
         return areas.get(0);
     }
-    
+
     @Override
     public List<Alue> findAll() throws SQLException {
-                
-        String query = "SELECT a.id, a.nimi, max(vs.viestit) AS viestit, max(vs.timestamp) AS timestamp FROM (select k.alue_id, count(v.id)"
-                + " AS viestit, max(v.aika) AS timestamp FROM viesti v JOIN ketju k ON k.id = v.ketju_id GROUP BY k.alue_id) vs FULL JOIN alue a"
-                + " ON a.id = vs.alue_id GROUP BY a.nimi, a.id ORDER BY a.nimi ASC;";
-        return database.queryAndCollect(query, 
+        String query;
+        if (database.isPostgres()) 
+            query = "SELECT a.id, a.nimi, max(vs.viestit) AS viestit, max(vs.timestamp) AS timestamp FROM (select k.alue_id, count(v.id)"
+                    + " AS viestit, max(v.aika) AS timestamp FROM viesti v JOIN ketju k ON k.id = v.ketju_id GROUP BY k.alue_id) vs FULL JOIN alue a"
+                    + " ON a.id = vs.alue_id GROUP BY a.nimi, a.id ORDER BY a.nimi ASC;";
+        else
+            query = "SELECT A.id, A.nimi, COUNT(V.id) as viestit, MAX(V.aika) as timestamp "
+                    + "FROM Alue A JOIN Ketju K ON K.alue_id = A.id JOIN Viesti V ON V.ketju_id = K.id "
+                    + "GROUP BY A.nimi ORDER BY A.nimi DESC";
+        
+        return database.queryAndCollect(query,
                 rs -> new Alue(
-                    rs.getInt("id"),
-                    rs.getString("nimi"),
-                    rs.getInt("viestit"),
-                    Formatteri.formatoi(rs.getString("timestamp"))
+                        rs.getInt("id"),
+                        rs.getString("nimi"),
+                        rs.getInt("viestit"),
+                        Formatteri.formatoi(rs.getString("timestamp"))
                 )
         );
     }
@@ -84,12 +91,12 @@ public class AlueDao implements Dao<Alue, Integer> {
     public void delete(Integer key) throws SQLException {
         //database.update("DELETE FROM Alue WHERE id = ?", key);
     }
-    
+
     @Override
     public void update(int id, String... args) throws SQLException {
         // Not implemented
     }
-    
+
     public void updateName(int id, String name) throws SQLException {
         database.update("UPDATE Alue SET nimi = ? WHERE id = ?", id, name);
     }

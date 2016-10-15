@@ -16,7 +16,7 @@
                 </header>
 
                 <section class="main-content">
-
+                    <h2 th:text="${ketju.nimi}">Ketjun nimi</h2>
                     <div class="panel panel-danger" th:each="viesti: ${viestit}">
                         <div class="panel-heading" th:text="${viesti.nimimerkki}">nimimerkki</div>
                         <div class="panel-body" th:text="${viesti.sisalto}">sisalto</div>
