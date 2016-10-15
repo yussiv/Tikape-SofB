@@ -61,7 +61,7 @@ public class Main {
         }, new ThymeleafTemplateEngine());
 
         // Listaa ketjun viestit
-        get("/ketju/:id + /page + /:pg", (req, res) -> {
+        get("/ketju/5/page + /:pg", (req, res) -> {
             int id = Integer.parseInt(req.params("id"));
             int page = Integer.parseInt(req.params("pg"));
             int alueId = ketjuDao.findOne(id).getAlueId();
