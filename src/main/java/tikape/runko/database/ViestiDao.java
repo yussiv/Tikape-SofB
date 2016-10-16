@@ -111,9 +111,15 @@ public class ViestiDao implements Dao<Viesti, Integer>  {
     public int getPageCount(Integer ketjuId) throws SQLException {
         int count = -1;
         List<Integer> counts = database.queryAndCollect("SELECT count(v.id) AS c FROM Viesti v, Ketju k WHERE k.id=v.ketju_id AND ketju_id= ? ", rs -> rs.getInt("c"), ketjuId);
-            if(counts.size() == 1)
-                count = counts.get(0);
-        int pgs = count / 10 + 1;
+        if(counts.size() == 1)
+            count = counts.get(0);
+        int pgs;
+        if (count > 0) {
+            pgs = (count - 1) / 10 + 1;
+        } else {
+            pgs = 1;
+        }
+        
         return pgs;
     }
 
