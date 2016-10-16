@@ -15,27 +15,18 @@
                     <div th:include="fragment/layout :: breadcrumb" th:remove="tag"></div>
                 </header>
 
-                <section class="main-content">
+                <section class="main-content thread">
                     <h2 th:text="${ketju.nimi}">Ketjun nimi</h2>
                     <!-- ylä-sivutus -->
-                    <div th:if="${sivut} > 1">
-                        <ul class="pagination" th:each="i : ${#numbers.sequence(1, sivut/1)}">
-                            <li  th:if="${sivu == i}" class="active"><a th:href="${'/ketju/' + ketju.id + '/page/' + i}" th:text="${ i }">sivu</a></li>
-                            <li  th:if="${sivu != i}"><a th:href="${'/ketju/' + ketju.id + '/page/' + i}" th:text="${ i }">sivu</a></li>
-                        </ul>
-                    </div>
-                    <div class="panel panel-danger" th:each="viesti: ${viestit}">
+                    <div th:include="fragment/layout :: pagination-thread" th:remove="tag"></div>
+                    
+                    <div class="panel" th:each="viesti: ${viestit}" th:id="${'comment-'+viesti.id}">
                         <div class="panel-heading" th:text="${viesti.nimimerkki}">nimimerkki</div>
                         <div class="panel-body" th:text="${viesti.sisalto}">sisalto</div>
-                        <div class="panel-footer" th:text="${viesti.aika}" style="background-color: #990000">aika</div>
+                        <div class="panel-footer" th:text="${viesti.aika}">aika</div>
                     </div >
                     <!-- ala-sivutus -->
-                    <div th:if="${sivut} > 1">
-                        <ul class="pagination" th:each="i : ${#numbers.sequence(1, sivut/1)}">
-                            <li  th:if="${sivu == i}" class="active"><a th:href="${'/ketju/' + ketju.id + '/page/' + i}" th:text="${ i }">sivu</a></li>
-                            <li  th:if="${sivu != i}"><a th:href="${'/ketju/' + ketju.id + '/page/' + i}" th:text="${ i }">sivu</a></li>
-                        </ul>
-                    </div>
+                    <div th:include="fragment/layout :: pagination-thread" th:remove="tag"></div>
                     <div th:include="fragment/layout :: breadcrumb" th:remove="tag"></div>
                     <div th:include="fragment/form/add-message :: form" th:remove="tag"></div>
                     

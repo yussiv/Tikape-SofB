@@ -89,3 +89,14 @@ figure figcaption {
 figure {
     position: relative;
 }
+
+.thread .panel-footer {
+    padding: 3px 15px;
+    background-color: #652d2d;
+}
+.thread .panel-heading {
+    padding: 5px 15px;
+    font-size: 1.1em;
+    background-color: #f3f3f3;
+    color: #941717;
+}

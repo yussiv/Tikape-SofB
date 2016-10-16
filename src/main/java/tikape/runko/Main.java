@@ -56,6 +56,8 @@ public class Main {
             map.put("ketjut", ketjuDao.findAllFromAlue(id));
             map.put("alue", alueDao.findOne(id));
             map.put("nimimerkki", req.session().attribute("nimimerkki"));
+            map.put("sivu", 0);
+            map.put("sivut", 0);
 
             return new ModelAndView(map, "alue");
         }, new ThymeleafTemplateEngine());
