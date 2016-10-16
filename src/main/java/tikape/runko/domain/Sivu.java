@@ -1,12 +1,12 @@
 
 package tikape.runko.domain;
 
-public class Page {
+public class Sivu {
     private String url;
     private boolean current;
     private int number;
 
-    public Page(String url, boolean current, int number) {
+    public Sivu(String url, boolean current, int number) {
         this.url = url;
         this.current = current;
         this.number = number;

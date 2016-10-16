@@ -13,7 +13,7 @@ import tikape.runko.database.AlueDao;
 import tikape.runko.database.KetjuDao;
 import tikape.runko.database.ViestiDao;
 import tikape.runko.domain.Ketju;
-import tikape.runko.domain.Page;
+import tikape.runko.domain.Sivu;
 import tikape.runko.util.InputScrubber;
 
 public class Main {
@@ -56,13 +56,13 @@ public class Main {
         get("/alue/:id", (req, res) -> {
             int id = Integer.parseInt(req.params("id"));
             int sivuMaara = ketjuDao.getPageCount(id, 3);
-            System.out.println("sivumaara:"+sivuMaara+" sivu:/alue/"+id);
+            
             HashMap map = new HashMap<>();
             map.put("ketjut", ketjuDao.getPageFromAlue(id, 3, 1));
             map.put("alue", alueDao.findOne(id));
             map.put("nimimerkki", req.session().attribute("nimimerkki"));
             if(sivuMaara > 1)
-                map.put("sivut", createLinks("/alue/"+id, sivuMaara, 1));
+                map.put("sivut", createPaginationLinks("/alue/"+id, sivuMaara, 1));
 
             return new ModelAndView(map, "alue");
         }, new ThymeleafTemplateEngine());
@@ -78,7 +78,7 @@ public class Main {
             map.put("alue", alueDao.findOne(id));
             map.put("nimimerkki", req.session().attribute("nimimerkki"));
             if(sivuMaara > 1)
-                map.put("sivut", createLinks("/alue/"+id, sivuMaara, sivunumero));
+                map.put("sivut", createPaginationLinks("/alue/"+id, sivuMaara, sivunumero));
 
             return new ModelAndView(map, "alue");
         }, new ThymeleafTemplateEngine());
@@ -95,7 +95,7 @@ public class Main {
             map.put("alue", alueDao.findOne(alueId));
             map.put("ketju", ketjuDao.findOne(id));
             if(sivuMaara > 1)
-                map.put("sivut", createLinks("/ketju/"+id, sivuMaara, 1));
+                map.put("sivut", createPaginationLinks("/ketju/"+id, sivuMaara, 1));
             
             return new ModelAndView(map, "ketju");
         }, new ThymeleafTemplateEngine());
@@ -113,7 +113,7 @@ public class Main {
             map.put("alue", alueDao.findOne(alueId));
             map.put("ketju", ketjuDao.findOne(id));
             if(sivuMaara > 1)
-                map.put("sivut", createLinks("/ketju/"+id, sivuMaara, sivunumero));
+                map.put("sivut", createPaginationLinks("/ketju/"+id, sivuMaara, sivunumero));
             
             return new ModelAndView(map, "ketju");
         }, new ThymeleafTemplateEngine());
@@ -202,10 +202,10 @@ public class Main {
         return 4567; //return default port if heroku-port isn't set (i.e. on localhost)
     }
     
-    static List<Page> createLinks(String path, int pageCount, int currentPage) {
-        List<Page> pages = new ArrayList<>();
+    static List<Sivu> createPaginationLinks(String path, int pageCount, int currentPage) {
+        List<Sivu> pages = new ArrayList<>();
         for(int i = 1; i <= pageCount; i++) {
-            pages.add(new Page(path + "/page/" + i, currentPage == i, i));
+            pages.add(new Sivu(path + "/page/" + i, currentPage == i, i));
         }
         return pages;
     }

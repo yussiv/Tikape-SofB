@@ -152,7 +152,7 @@ public class KetjuDao implements Dao<Ketju, Integer> {
         List<Integer> threads = database.queryAndCollect("SELECT count(id) AS ketjut FROM Ketju WHERE alue_id = ?", rs -> rs.getInt("ketjut"), id);
         if (!threads.isEmpty()) {
             int threadCount = threads.get(0);
-            return itemCount > 0 ? (int) Math.ceil(1.0*threadCount / itemCount) : 1;
+            return itemCount > 0 ? (threadCount + itemCount - 1) / itemCount : 1;
         }
         return 0;
     }
@@ -165,8 +165,8 @@ public class KetjuDao implements Dao<Ketju, Integer> {
                     + " count(v.id) AS viestit, MAX(v.aika) AS timestamp FROM viesti v GROUP BY v.ketju_id) vs JOIN ketju k ON"
                     + " k.id = vs.ketju_id WHERE k.alue_id = ? GROUP BY k.id ORDER BY timestamp DESC LIMIT ? OFFSET ?";
         } else {
-            query = "SELECT k.id as id, k.nimi as nimi, count(v.id) as viestit, max(v.aika) as timestamp FROM Ketju k, Viesti v "
-                    + "WHERE k.id=v.ketju_id AND k.alue_id= ? GROUP BY k.id ORDER BY v.aika DESC LIMIT ? OFFSET ?";
+            query = "SELECT k.id as id, k.nimi as nimi, count(v.id) as viestit, max(v.aika) as timestamp FROM Ketju k LEFT JOIN Viesti v "
+                    + "ON k.id=v.ketju_id WHERE k.alue_id= ? GROUP BY k.id ORDER BY v.aika DESC LIMIT ? OFFSET ?";
         }
 
         return database.queryAndCollect(query, rs -> new Ketju(
