@@ -150,6 +150,7 @@ public class KetjuDao implements Dao<Ketju, Integer> {
 
     public int getPageCount(int id, int itemCount) throws SQLException {
         List<Integer> threads = database.queryAndCollect("SELECT count(id) AS ketjut FROM Ketju WHERE alue_id = ?", rs -> rs.getInt("ketjut"), id);
+        System.out.println("ketju getPageCount: " + threads.toString());
         if (threads.size() == 1) {
             int threadCount = threads.get(0);
             return itemCount > 0 ? (int) Math.ceil(threadCount / itemCount) : 1;
