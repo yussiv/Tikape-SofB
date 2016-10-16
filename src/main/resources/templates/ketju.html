@@ -17,11 +17,19 @@
 
                 <section class="main-content">
                     <h2 th:text="${ketju.nimi}">Ketjun nimi</h2>
+                    <!-- ylä-sivutus -->
+                    <div th:if="${sivut} > 1">
+                        <ul class="pagination" th:each="i : ${#numbers.sequence(1, sivut/1)}">
+                            <li  th:if="${sivu == i}" class="active"><a th:href="${'/ketju/' + ketju.id + '/page/' + i}" th:text="${ i }">sivu</a></li>
+                            <li  th:if="${sivu != i}"><a th:href="${'/ketju/' + ketju.id + '/page/' + i}" th:text="${ i }">sivu</a></li>
+                        </ul>
+                    </div>
                     <div class="panel panel-danger" th:each="viesti: ${viestit}">
                         <div class="panel-heading" th:text="${viesti.nimimerkki}">nimimerkki</div>
                         <div class="panel-body" th:text="${viesti.sisalto}">sisalto</div>
                         <div class="panel-footer" th:text="${viesti.aika}" style="background-color: #990000">aika</div>
                     </div >
+                    <!-- ala-sivutus -->
                     <div th:if="${sivut} > 1">
                         <ul class="pagination" th:each="i : ${#numbers.sequence(1, sivut/1)}">
                             <li  th:if="${sivu == i}" class="active"><a th:href="${'/ketju/' + ketju.id + '/page/' + i}" th:text="${ i }">sivu</a></li>

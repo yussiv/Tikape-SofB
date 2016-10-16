@@ -113,15 +113,16 @@ public class Main {
         });
 
         // Lisää viestin
-        post("/ketju/:id", (req, res) -> {
+        post("/ketju/:id/page/:pg", (req, res) -> {
             String nimimerkki = InputScrubber.clean(req.queryParams("nimimerkki"));
             String viesti = InputScrubber.clean(req.queryParams("viesti"));
             int ketjuId = Integer.parseInt(req.params("id"));
+            int page = Integer.parseInt(req.queryParams("pg"));
             
             if(!nimimerkki.isEmpty() && !viesti.isEmpty())
                 viestiDao.create(ketjuId, nimimerkki, viesti);
             
-            res.redirect("/ketju/" + ketjuId);
+            res.redirect("/ketju/" + ketjuId + "+ /page/" + page);
             return null;
         });
         
