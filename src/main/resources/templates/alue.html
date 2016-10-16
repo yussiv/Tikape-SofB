@@ -15,7 +15,7 @@
                     <div th:include="fragment/layout :: breadcrumb" th:remove="tag"></div>
                 </header>
                     <!-- ylasivutus -->
-                    <div th:include="fragment/layout :: pagination-area" th:remove="tag"></div>
+                    <div th:include="fragment/layout :: pagination" th:remove="tag"></div>
                 <section class="main-content">
 
                     <table class="table">
@@ -35,7 +35,7 @@
                         </tbody>
                     </table>
                     <!-- alasivutus -->
-                    <div th:include="fragment/layout :: pagination-area" th:remove="tag"></div>
+                    <div th:include="fragment/layout :: pagination" th:remove="tag"></div>
                     <div th:include="fragment/form/add-thread :: form" th:remove="tag"></div>
                 </section>
             </div>

@@ -1,6 +1,8 @@
 package tikape.runko;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import spark.ModelAndView;
 import spark.Session;
 import spark.Spark;
@@ -11,6 +13,7 @@ import tikape.runko.database.AlueDao;
 import tikape.runko.database.KetjuDao;
 import tikape.runko.database.ViestiDao;
 import tikape.runko.domain.Ketju;
+import tikape.runko.domain.Page;
 import tikape.runko.util.InputScrubber;
 
 public class Main {
@@ -63,20 +66,20 @@ public class Main {
         }, new ThymeleafTemplateEngine());
 
         // Listaa ketjun viestit
-        get("/ketju/:id/page/:pg", (req, res) -> {
+        get("/ketju/:id/page/:pagenumber", (req, res) -> {
             int id = Integer.parseInt(req.params("id"));
-            int sivu = Integer.parseInt(req.params("pg"));
+            int sivuNumero = Integer.parseInt(req.params("pagenumber"));
             int alueId = ketjuDao.findOne(id).getAlueId();
-            int pc = viestiDao.getPageCount(id);
+            int sivuMaara = viestiDao.getPageCount(id);
+            
             HashMap map = new HashMap<>();
-            map.put("viestit", viestiDao.findAllFromKetju(id, sivu));
+            map.put("nimimerkki", req.session().attribute("nimimerkki"));
+            map.put("viestit", viestiDao.findAllFromKetju(id, sivuNumero));
             map.put("alue", alueDao.findOne(alueId));
             map.put("ketju", ketjuDao.findOne(id));
-            map.put("sivu", sivu);
-            map.put("sivut", pc);
-            map.put("nimimerkki", req.session().attribute("nimimerkki"));
-
-
+            if(sivuMaara > 1)
+                map.put("sivut", createLinks("/ketju/"+id, sivuMaara, sivuNumero));
+            
             return new ModelAndView(map, "ketju");
         }, new ThymeleafTemplateEngine());
 
@@ -163,5 +166,13 @@ public class Main {
             return Integer.parseInt(processBuilder.environment().get("PORT"));
         }
         return 4567; //return default port if heroku-port isn't set (i.e. on localhost)
+    }
+    
+    static List<Page> createLinks(String path, int pageCount, int currentPage) {
+        List<Page> pages = new ArrayList<>();
+        for(int i = 1; i <= pageCount; i++) {
+            pages.add(new Page(path + "/page/" + i, currentPage == i, i));
+        }
+        return pages;
     }
 }

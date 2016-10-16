@@ -30,18 +30,10 @@
             </ul>
         </div>
 
-        <div th:fragment="pagination-thread">
-            <div th:if="${sivut} > 1">
-                <ul class="pagination" th:each="i : ${#numbers.sequence(1, sivut/1)}">
-                    <li class="pagination-item" th:classappend="${sivu == i} ? 'active' : ''"><a th:href="${'/ketju/' + ketju.id + '/page/' + i}" th:text="${ i }">sivu</a></li>
-                </ul>
-            </div>
-        </div>
-        
-        <div th:fragment="pagination-area">
-            <div th:if="${sivut} > 1">
-                <ul class="pagination" th:each="i : ${#numbers.sequence(1, sivut/1)}">
-                    <li class="pagination-item" th:classappend="${sivu == i} ? 'active' : ''"><a th:href="${'/alue/' + alue.id + '/page/' + i}" th:text="${ i }">sivu</a></li>
+        <div th:fragment="pagination">
+            <div th:if="${sivut}">
+                <ul class="pagination" th:each="sivu : ${sivut}">
+                    <li class="pagination-item" th:classappend="${sivu.current} ? 'active' : ''"><a th:href="${sivu.url}" th:text="${sivu.number}">sivu</a></li>
                 </ul>
             </div>
         </div>
