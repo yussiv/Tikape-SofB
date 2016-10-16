@@ -112,7 +112,6 @@ public class ViestiDao implements Dao<Viesti, Integer>  {
         List<Integer> counts = database.queryAndCollect("SELECT count(v.id) AS c FROM Viesti v, Ketju k WHERE k.id=v.ketju_id AND ketju_id= ? ", rs -> rs.getInt("c"), ketjuId);
             if(counts.size() == 1)
                 count = counts.get(0);
-        //TODO: sivumäärä saadaan tässä ja palautetaan mainiin
         int pgs = count / 10 + 1;
         return pgs;
     }
