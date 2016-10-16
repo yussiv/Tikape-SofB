@@ -157,11 +157,11 @@ public class Main {
             String nimimerkki = InputScrubber.clean(req.queryParams("nimimerkki"));
             String viesti = InputScrubber.clean(req.queryParams("viesti"));
             int ketjuId = Integer.parseInt(req.params("id"));
-            int sivu = Integer.parseInt(req.params("pg"));
+//            int sivu = Integer.parseInt(req.params("pg"));
             if(!nimimerkki.isEmpty() && !viesti.isEmpty())
                 viestiDao.create(ketjuId, nimimerkki, viesti);
             
-            res.redirect("/ketju/" + ketjuId + "/page/" + sivu);
+            res.redirect("/ketju/" + ketjuId + "/page/" + viestiDao.getPageCount(ketjuId));
             return null;
         });
         
