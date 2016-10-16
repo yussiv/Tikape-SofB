@@ -52,15 +52,33 @@ public class Main {
             return new ModelAndView(map, "index");
         }, new ThymeleafTemplateEngine());
 
-        // Listaa Alueen ketjut
+        // Listaa ensimmäiset x kpl Alueen ketjuja
         get("/alue/:id", (req, res) -> {
             int id = Integer.parseInt(req.params("id"));
+            int sivuMaara = ketjuDao.getPageCount(id, 3);
+            
             HashMap map = new HashMap<>();
-            map.put("ketjut", ketjuDao.findAllFromAlue(id));
+            map.put("ketjut", ketjuDao.getPageFromAlue(id, 3, 1));
             map.put("alue", alueDao.findOne(id));
             map.put("nimimerkki", req.session().attribute("nimimerkki"));
-            map.put("sivu", 0);
-            map.put("sivut", 0);
+            if(sivuMaara > 1)
+                map.put("sivut", createLinks("/alue/"+id, sivuMaara, 1));
+
+            return new ModelAndView(map, "alue");
+        }, new ThymeleafTemplateEngine());
+        
+        // Listaa Alueen ketjut sivunumeron perusteella
+        get("/alue/:id/page/:pagenumber", (req, res) -> {
+            int id = Integer.parseInt(req.params("id"));
+            int sivunumero = Integer.parseInt(req.params("pagenumber"));
+            int sivuMaara = ketjuDao.getPageCount(id, 3);
+            
+            HashMap map = new HashMap<>();
+            map.put("ketjut", ketjuDao.getPageFromAlue(id, 3, sivunumero));
+            map.put("alue", alueDao.findOne(id));
+            map.put("nimimerkki", req.session().attribute("nimimerkki"));
+            if(sivuMaara > 1)
+                map.put("sivut", createLinks("/alue/"+id, sivuMaara, sivunumero));
 
             return new ModelAndView(map, "alue");
         }, new ThymeleafTemplateEngine());
@@ -68,17 +86,17 @@ public class Main {
         // Listaa ketjun viestit
         get("/ketju/:id/page/:pagenumber", (req, res) -> {
             int id = Integer.parseInt(req.params("id"));
-            int sivuNumero = Integer.parseInt(req.params("pagenumber"));
+            int sivunumero = Integer.parseInt(req.params("pagenumber"));
             int alueId = ketjuDao.findOne(id).getAlueId();
             int sivuMaara = viestiDao.getPageCount(id);
             
             HashMap map = new HashMap<>();
             map.put("nimimerkki", req.session().attribute("nimimerkki"));
-            map.put("viestit", viestiDao.findAllFromKetju(id, sivuNumero));
+            map.put("viestit", viestiDao.findAllFromKetju(id, sivunumero));
             map.put("alue", alueDao.findOne(alueId));
             map.put("ketju", ketjuDao.findOne(id));
             if(sivuMaara > 1)
-                map.put("sivut", createLinks("/ketju/"+id, sivuMaara, sivuNumero));
+                map.put("sivut", createLinks("/ketju/"+id, sivuMaara, sivunumero));
             
             return new ModelAndView(map, "ketju");
         }, new ThymeleafTemplateEngine());

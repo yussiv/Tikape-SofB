@@ -25,17 +25,17 @@ public class KetjuDao implements Dao<Ketju, Integer> {
     public KetjuDao(Database database) {
         this.database = database;
     }
-    
-    public int create( int areaId, String name) throws SQLException {
+
+    public int create(int areaId, String name) throws SQLException {
         int id = -1;
-        
-        if(database.isPostgres()) {
+
+        if (database.isPostgres()) {
             // postgressistä saa palautusarvona viimeksi lisätyn id:n
             List<Integer> ids = database.queryAndCollect("INSERT INTO Ketju (nimi,alue_id) VALUES (?, ?) RETURNING id", rs -> rs.getInt("id"), name, areaId);
-            if(ids.size() == 1)
+            if (ids.size() == 1) {
                 id = ids.get(0);
-        }
-        else {
+            }
+        } else {
             // SQlitellä tehdään pitkän kaavan mukaan
             Connection conn = database.getConnection();
             PreparedStatement stm = conn.prepareStatement("INSERT INTO Ketju (nimi,alue_id) VALUES (?, ?)");
@@ -44,8 +44,9 @@ public class KetjuDao implements Dao<Ketju, Integer> {
             // haetaan viimeksi luotu id
             ResultSet rs = conn.createStatement().executeQuery("SELECT last_insert_rowid() as id");
 
-            if(rs.next())
+            if (rs.next()) {
                 id = rs.getInt("id");
+            }
 
             stm.close();
             conn.close();
@@ -102,15 +103,16 @@ public class KetjuDao implements Dao<Ketju, Integer> {
     }
 
     public List<Ketju> findAllFromAlue(Integer key) throws SQLException {
-        
+
         String query;
-        if(database.isPostgres())
+        if (database.isPostgres()) {
             query = "SELECT k.id, k.nimi, max(vs.viestit) AS viestit, max(vs.timestamp) AS timestamp FROM (SELECT v.ketju_id,"
-                + " count(v.id) AS viestit, max(v.aika) AS timestamp FROM viesti v GROUP BY v.ketju_id) vs JOIN ketju k ON"
-                + " k.id = vs.ketju_id WHERE k.alue_id = ? GROUP BY k.id ORDER BY timestamp DESC LIMIT 10 OFFSET 0;";
-        else
+                    + " count(v.id) AS viestit, max(v.aika) AS timestamp FROM viesti v GROUP BY v.ketju_id) vs JOIN ketju k ON"
+                    + " k.id = vs.ketju_id WHERE k.alue_id = ? GROUP BY k.id ORDER BY timestamp DESC LIMIT 10 OFFSET 0;";
+        } else {
             query = "SELECT k.id as id, k.nimi as nimi, count(v.id) as viestit, max(v.aika) as timestamp FROM Ketju k, Viesti v "
                     + "WHERE k.id=v.ketju_id AND k.alue_id= ? GROUP BY k.id ORDER BY v.aika DESC;";
+        }
 
         return database.queryAndCollect(query, rs -> new Ketju(
                 rs.getInt("id"),
@@ -144,5 +146,35 @@ public class KetjuDao implements Dao<Ketju, Integer> {
     @Override
     public void update(int id, String... args) throws SQLException {
         // this is not the method you are looking for
+    }
+
+    public int getPageCount(int id, int itemCount) throws SQLException {
+        List<Integer> threads = database.queryAndCollect("SELECT COUNT(id) AS ketjut FROM Ketju WHERE alue_id = ?", rs -> rs.getInt("ketjut"), id);
+        if (threads.size() == 1) {
+            int threadCount = threads.get(0);
+            return (int) Math.ceil(threadCount / itemCount);
+        }
+        return 0;
+    }
+
+    public List<Ketju> getPageFromAlue(int id, int itemCount, int pageNumber) throws SQLException {
+        int offset = itemCount * (pageNumber - 1);
+        String query;
+        if (database.isPostgres()) {
+            query = "SELECT k.id, k.nimi, MAX(vs.viestit) AS viestit, MAX(vs.timestamp) AS timestamp FROM (SELECT v.ketju_id,"
+                    + " count(v.id) AS viestit, MAX(v.aika) AS timestamp FROM viesti v GROUP BY v.ketju_id) vs JOIN ketju k ON"
+                    + " k.id = vs.ketju_id WHERE k.alue_id = ? GROUP BY k.id ORDER BY timestamp DESC LIMIT ? OFFSET ?";
+        } else {
+            query = "SELECT k.id as id, k.nimi as nimi, count(v.id) as viestit, max(v.aika) as timestamp FROM Ketju k, Viesti v "
+                    + "WHERE k.id=v.ketju_id AND k.alue_id= ? GROUP BY k.id ORDER BY v.aika DESC LIMIT ? OFFSET ?";
+        }
+
+        return database.queryAndCollect(query, rs -> new Ketju(
+                rs.getInt("id"),
+                id,
+                rs.getString("nimi"),
+                rs.getInt("viestit"),
+                Formatteri.formatoi(rs.getString("timestamp"))
+        ), id, itemCount, offset);
     }
 }
