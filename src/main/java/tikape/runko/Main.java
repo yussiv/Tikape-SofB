@@ -83,7 +83,24 @@ public class Main {
             return new ModelAndView(map, "alue");
         }, new ThymeleafTemplateEngine());
 
-        // Listaa ketjun viestit
+        // Listaa ensimmäiset x kpl ketjun viesteistä
+        get("/ketju/:id", (req, res) -> {
+            int id = Integer.parseInt(req.params("id"));
+            int alueId = ketjuDao.findOne(id).getAlueId();
+            int sivuMaara = viestiDao.getPageCount(id);
+            
+            HashMap map = new HashMap<>();
+            map.put("nimimerkki", req.session().attribute("nimimerkki"));
+            map.put("viestit", viestiDao.findAllFromKetju(id, 1));
+            map.put("alue", alueDao.findOne(alueId));
+            map.put("ketju", ketjuDao.findOne(id));
+            if(sivuMaara > 1)
+                map.put("sivut", createLinks("/ketju/"+id, sivuMaara, 1));
+            
+            return new ModelAndView(map, "ketju");
+        }, new ThymeleafTemplateEngine());
+        
+        // Listaa ketjun viestit sivunumeron perusteella
         get("/ketju/:id/page/:pagenumber", (req, res) -> {
             int id = Integer.parseInt(req.params("id"));
             int sivunumero = Integer.parseInt(req.params("pagenumber"));
