@@ -63,14 +63,15 @@ public class Main {
         // Listaa ketjun viestit
         get("/ketju/:id/page/:pg", (req, res) -> {
             int id = Integer.parseInt(req.params("id"));
-            int page = Integer.parseInt(req.params("pg"));
+            int sivu = Integer.parseInt(req.params("pg"));
             int alueId = ketjuDao.findOne(id).getAlueId();
-            int pg = viestiDao.getPageCount(id);
+            int pc = viestiDao.getPageCount(id);
             HashMap map = new HashMap<>();
-            map.put("viestit", viestiDao.findAllFromKetju(id, pg));
+            map.put("viestit", viestiDao.findAllFromKetju(id, sivu));
             map.put("alue", alueDao.findOne(alueId));
             map.put("ketju", ketjuDao.findOne(id));
-            map.put("sivut", pg);
+            map.put("sivu", alueId)
+            map.put("sivut", pc);
             map.put("nimimerkki", req.session().attribute("nimimerkki"));
 
 
