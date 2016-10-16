@@ -121,6 +121,12 @@ public class Main {
         // Lisää alueen
         post("/", (req, res) -> {
             String nimi = InputScrubber.clean(req.queryParams("alue_nimi"));
+            
+            if(nimi.length() > 200) {
+                res.redirect("/?error");
+                return "";
+            }
+            
             if(!nimi.isEmpty()) {
                 int alueId = alueDao.create(nimi);
                 if (alueId > 0) {
@@ -137,6 +143,11 @@ public class Main {
             String otsikko = InputScrubber.clean(req.queryParams("otsikko"));
             String viesti = InputScrubber.clean(req.queryParams("viesti"));
             int alueId = Integer.parseInt(req.params("id"));
+            
+            if(nimimerkki.length() > 30 || otsikko.length() > 200) {
+                res.redirect("/alue/" + alueId + "?error");
+                return "";
+            }
             
             if(!nimimerkki.isEmpty() && !otsikko.isEmpty() && !viesti.isEmpty()) {
                 int ketjuId = ketjuDao.create(alueId, otsikko);
@@ -157,6 +168,12 @@ public class Main {
             String nimimerkki = InputScrubber.clean(req.queryParams("nimimerkki"));
             String viesti = InputScrubber.clean(req.queryParams("viesti"));
             int ketjuId = Integer.parseInt(req.params("id"));
+            
+            if(nimimerkki.length() > 30) {
+                res.redirect("/ketju/" + ketjuId + "/page/" + viestiDao.getPageCount(ketjuId) + "?error");
+                return "";
+            }
+            
             if(!nimimerkki.isEmpty() && !viesti.isEmpty())
                 viestiDao.create(ketjuId, nimimerkki, viesti);
             

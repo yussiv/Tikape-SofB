@@ -20,21 +20,6 @@ public class Database<T> {
     }
 
     public Connection getConnection() throws SQLException {
-//        if (this.address.contains("postgres")) {
-//            try {
-//                URI dbUri = new URI(address);
-//
-//                String username = dbUri.getUserInfo().split(":")[0];
-//                String password = dbUri.getUserInfo().split(":")[1];
-//                String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
-//
-//                return DriverManager.getConnection(dbUrl, username, password);
-//            } catch (Throwable t) {
-//                System.out.println("Error: " + t.getMessage());
-//                t.printStackTrace();
-//            }
-//        }
-
         return DriverManager.getConnection(address);
     }
 
@@ -136,12 +121,6 @@ public class Database<T> {
 
     private List<String> postgreLauseet() {
         ArrayList<String> lista = new ArrayList<>();
-
-        // tietokantataulujen luomiseen tarvittavat komennot suoritusjärjestyksessä
-//        lista.add("DROP TABLE Tuote;");
-        // heroku käyttää SERIAL-avainsanaa uuden tunnuksen automaattiseen luomiseen
-//        lista.add("CREATE TABLE Tuote (id SERIAL PRIMARY KEY, nimi varchar(255));");
-//        lista.add("INSERT INTO Tuote (nimi) VALUES ('postgresql-tuote');");
         lista.add("CREATE TABLE Alue (id SERIAL PRIMARY KEY NOT NULL, nimi VARCHAR(200));");
         lista.add("CREATE TABLE Ketju (id SERIAL PRIMARY KEY NOT NULL, alue_id INT, nimi VARCHAR(200));");
         lista.add("CREATE TABLE Viesti (id SERIAL PRIMARY KEY NOT NULL, ketju_id INT, sisalto TEXT, aika TIMESTAMP WITHOUT TIME ZONE DEFAULT current_timestamp, nimimerkki VARCHAR(30));");
