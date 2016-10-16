@@ -86,7 +86,7 @@ public class ViestiDao implements Dao<Viesti, Integer>  {
         int temp = 10;
         Connection connection = database.getConnection();
         
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Viesti WHERE ketju_id = ? LIMIT 10 OFFSET 0");
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Viesti WHERE ketju_id = ? LIMIT 10 OFFSET ? ");
         stmt.setObject(1, 2, key, temp);
         
         ResultSet rs = stmt.executeQuery();
