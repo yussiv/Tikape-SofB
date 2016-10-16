@@ -11,27 +11,28 @@ body {
 }
 
 .container {
-    background-color: #4a2c2c;
+    background-color: #33221f;
 }
 
 a {
-    color: #d00
+    color: #fce1b1;
 }
 
 a:hover,
-a:active {
-    color: #f00
+a:active,
+a:focus {
+    color: #c3853b;
 }
 .site-header .container {
     padding: 0;
-    background-color: #8c1313;
+    background-color: #271916;
 }
 
 .site-header h1 {
     font-family: 'Gabriela', sans-serif;
-    color: #000000;
+    color: #805528;
     margin: 10px 15px 5px;
-    text-shadow: 1px 1px 1px #ff3535
+    text-shadow: 1px 1px 1px #1c110f;
 }
 
 .site-footer {
@@ -57,13 +58,9 @@ a:active {
     background-color: transparent;
 }
 
-.panel-body {
-    color: #000;
-}
-
 .pagination > .active > a {
-    background-color: #900;
-    border-color: #900;
+    background-color: #954819;
+    border-color: #5e3d20;
 }
 
 .pagination > .active > a:hover {
@@ -72,13 +69,14 @@ a:active {
 }
 
 .pagination > li > a {
-    background-color: #fff;
+    background-color: #e6dace;
     color: #000;
+    border-color: #9f8b5e;
 }
 
 .pagination > li > a:hover {
-    background-color: #f2dede;
-    border-color: #f2dede;
+    background-color: #ded2b8;
+    border-color: #cfad64;
     color: #900;
 }
 
@@ -106,15 +104,27 @@ figure {
     background-color: #000;
 }
 
+.thread .panel {
+    background-color: transparent;
+    border: 1px solid #000;
+}
+
+.thread .panel-body {
+    color: #000;
+    background-color: #e2ddd3;
+}
+
 .thread .panel-footer {
     padding: 3px 15px;
-    background-color: #652d2d;
+    background-color: #3d3223;
+    color: #a5a198;
 }
+
 .thread .panel-heading {
     padding: 5px 15px;
     font-size: 1.1em;
-    background-color: #f3f3f3;
-    color: #941717;
+    background-color: #27201b;
+    color: #bba67b;
 }
 
 .table .title {
@@ -131,10 +141,16 @@ figure {
 
 .form.container {
     background-color: #351717;
+    background-color: #271916;
     padding-bottom: 2em;
     padding-top: 2em;
 }
 
 .form.container h3 {
     margin-top: 0;
+}
+
+.form-control {
+    color: #e8e8e8;
+    background-color: #1b140d;
 }
