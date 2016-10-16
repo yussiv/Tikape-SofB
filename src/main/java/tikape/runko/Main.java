@@ -72,7 +72,7 @@ public class Main {
             int id = Integer.parseInt(req.params("id"));
             int sivunumero = Integer.parseInt(req.params("pagenumber"));
             int sivuMaara = ketjuDao.getPageCount(id, 3);
-            System.out.println("sivumaara:"+sivuMaara+" sivu:/alue/"+id+"/page/"+sivunumero);
+            
             HashMap map = new HashMap<>();
             map.put("ketjut", ketjuDao.getPageFromAlue(id, 3, sivunumero));
             map.put("alue", alueDao.findOne(id));
@@ -153,11 +153,10 @@ public class Main {
         });
 
         // Lisää viestin
-        post("/ketju/:id/page/:pg", (req, res) -> {
+        post("/ketju/:id", (req, res) -> {
             String nimimerkki = InputScrubber.clean(req.queryParams("nimimerkki"));
             String viesti = InputScrubber.clean(req.queryParams("viesti"));
             int ketjuId = Integer.parseInt(req.params("id"));
-//            int sivu = Integer.parseInt(req.params("pg"));
             if(!nimimerkki.isEmpty() && !viesti.isEmpty())
                 viestiDao.create(ketjuId, nimimerkki, viesti);
             

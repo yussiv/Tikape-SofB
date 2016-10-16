@@ -6,7 +6,7 @@
     <body>
         <div th:fragment="form">
             <h3>Kirjoita uusi viesti</h3>
-            <form  method="post" th:action="${'/ketju/' + ketju.id + '/page/' + sivu}">
+            <form  method="post" th:action="${'/ketju/' + ketju.id}">
                 <div class="form-group">
                     <label for="name">Nimimerkki</label>
                     <input type="textarea" class="form-control" id="name" name="nimimerkki" placeholder="Nimesi" required="required" th:value="${nimimerkki}" />
