@@ -22,15 +22,31 @@ a:hover,
 a:active {
     color: #f00
 }
+.site-header .container {
+    padding: 0;
+    background-color: #8c1313;
+}
+
+.site-header h1 {
+    font-family: 'Gabriela', sans-serif;
+    color: #000000;
+    margin: 10px 15px 5px;
+    text-shadow: 1px 1px 1px #ff3535
+}
 
 .site-footer {
     padding: 1em 0;
     text-align: right;
 }
+
 .slogan {
     font-size: 1.2em;
     font-style: italic;
     color: #ededed;
+}
+
+.page-header {
+    margin: 0 0 20px;
 }
 
 .main-content {
@@ -69,7 +85,6 @@ a:active {
 .btn-danger {
     background-color: #900;
     border-color: #a00;
-    margin-top: 30px;
     outline: none !important;
 }
 
@@ -88,6 +103,7 @@ figure figcaption {
 }
 figure {
     position: relative;
+    background-color: #000;
 }
 
 .thread .panel-footer {
@@ -99,4 +115,26 @@ figure {
     font-size: 1.1em;
     background-color: #f3f3f3;
     color: #941717;
+}
+
+.table .title {
+    width: 80%;
+}
+
+.table .count,
+.table .date {
+    white-space:nowrap;
+}
+.table .count {
+    text-align:center;
+}
+
+.form.container {
+    background-color: #351717;
+    padding-bottom: 2em;
+    padding-top: 2em;
+}
+
+.form.container h3 {
+    margin-top: 0;
 }

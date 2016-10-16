@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
 
@@ -7,8 +7,7 @@
     <body>
         <header th:fragment="site-header" class="site-header">
             <div class="container">
-                <h1 style="font-family: 'Gabriela', sans-serif; color:#FD0505">Sisterhood of Behemothin keskustelupalsta</h1>
-                <p class="slogan">Kaikki mitä olet aina halunnut tietää kissan sisäelimistä</p>
+                <h1>Sisterhood of Behemothin keskustelupalsta</h1>
                 <figure>
                     <img src="http://oi65.tinypic.com/nprui9.jpg" class="img-responsive site-banner" alt="Witches' Sabbath (Goya, 1798)"/>
                     <figcaption>Witches' Sabbath (The Great He-Goat) (Francisko Goya, 1821-1823), Wikimedia Commons</figcaption>
@@ -31,9 +30,9 @@
         </div>
 
         <div th:fragment="pagination">
-            <div th:if="${sivut}">
-                <ul class="pagination" th:each="sivu : ${sivut}">
-                    <li class="pagination-item" th:classappend="${sivu.current} ? 'active' : ''"><a th:href="${sivu.url}" th:text="${sivu.number}">sivu</a></li>
+            <div th:if="${sivut}" class="text-center">
+                <ul class="pagination">
+                    <li th:each="sivu : ${sivut}" class="pagination-item" th:classappend="${sivu.current} ? 'active' : ''"><a th:href="${sivu.url}" th:text="${sivu.number}">sivu</a></li>
                 </ul>
             </div>
         </div>

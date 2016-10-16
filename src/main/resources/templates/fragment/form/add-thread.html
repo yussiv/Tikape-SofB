@@ -1,28 +1,26 @@
-﻿<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Layout Generic Title</title>
     </head>
     <body>
         <div th:fragment="form">
-            <input class="btn btn-danger" type="button" onclick="changeVisibility()" value="Avaa uusi ketju" />
-            <br/>
-            <br/>
+            <input id="hidebutton" class="btn btn-danger" type="button" onclick="changeVisibility()" value="Avaa uusi ketju" />
             <div id="hidden">
                 <form method="post" th:action="${'/alue/' + alue.id}">
                     <div class="form-group">
                         <label for="name">Nimimerkki</label>
-                        <input type="textarea" class="form-control" id="name" name="nimimerkki" placeholder="Nimesi" required="required" th:value="${nimimerkki}"/>
+                        <input type="textarea" class="form-control" id="nimimerkki" name="nimimerkki" placeholder="Nimesi" required="required" th:value="${nimimerkki}"  maxlength="30"/>
                     </div>
                     <div class="form-group">
                         <label for="title">Ketjun nimi</label>
-                        <input type="textarea" class="form-control" id="title" name="otsikko" placeholder="Ketjun nimi" required="required" />
+                        <input type="textarea" class="form-control" id="otsikko" name="otsikko" placeholder="Ketjun nimi" required="required"  maxlength="200" />
                     </div>
                     <div class="form-group">
                         <label for="message">Viesti</label>
-                        <textarea class="form-control" id="message" name="viesti" placeholder="Kirjoita viestisi t&auml;h&auml;n..." style="height: 140px;" required="required"></textarea>
+                        <textarea class="form-control" id="viesti" name="viesti" placeholder="Kirjoita viestisi t&auml;h&auml;n..." style="height: 140px;" required="required"></textarea>
                     </div>
-                    <button type="submit" class="btn btn-danger" style="margin-bottom: 140px;">L&auml;het&auml;</button>
+                    <button type="submit" class="btn btn-danger">Lis&auml;&auml; ketju</button>
                 </form> 
             </div> 
         </div>

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
     <head th:include="fragment/scripts :: head (title=Etusivu)">
@@ -6,40 +6,42 @@
     </head>
     <body>
         <div class="page">
-            
+
             <header th:replace="fragment/layout :: site-header"></header>
-            
+
             <div class="content container">
-                
+
                 <header class="page-header">
                     <h2>Keskustelualueet</h2>
                 </header>
-                
+
                 <section class="main-content">
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Alue</th>
-                                <th>Viestej&auml; yhteens&auml;</th>
-                                <th>Viimeisin viesti</th>
+                                <th class="title">Alue</th>
+                                <th class="count">Viestej&auml;</th>
+                                <th class="date">Viimeisin viesti</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr th:each="alue: ${alueet}">
-                                <td><a th:href="${'/alue/' + alue.id}" th:text="${alue.nimi}">alueen nimi + linkki</a></td>
-                                <td th:text="${alue.viestienMaara ? alue.viestienMaara : '0'}">0</td>
-                                <td th:text="${alue.viimeisinViesti}">eilen</td>
+                                <td class="title"><a th:href="${'/alue/' + alue.id}" th:text="${alue.nimi}">alueen nimi + linkki</a></td>
+                                <td class="count" th:text="${alue.viestienMaara ? alue.viestienMaara : '0'}">0</td>
+                                <td class="date" th:text="${alue.viimeisinViesti}">eilen</td>
                             </tr>
                         </tbody>
                     </table>
-                    <div th:include="fragment/form/add-area :: form" th:remove="tag"></div>
                 </section>
+            </div>
+            <div class="form container">
+                <div th:include="fragment/form/add-area :: form" th:remove="tag"></div>
             </div>
 
             <footer th:replace="fragment/layout :: footer"></footer>
-            
+
         </div>
-        
+
         <div th:include="fragment/scripts :: footer-scripts" th:remove="tag"></div>
     </body>
 </html>

@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
     <head th:include="fragment/scripts :: head (title=${ketju.nimi})">
         <title>Otsikko</title>
     </head>
-    <body>
+    <body class="thread">
         <div class="page">
 
             <header th:replace="fragment/layout :: site-header"></header>
@@ -15,7 +15,7 @@
                     <div th:include="fragment/layout :: breadcrumb" th:remove="tag"></div>
                 </header>
 
-                <section class="main-content thread">
+                <section class="main-content">
                     <h2 th:text="${ketju.nimi}">Ketjun nimi</h2>
                     <!-- ylä-sivutus -->
                     <div th:include="fragment/layout :: pagination" th:remove="tag"></div>
@@ -27,10 +27,10 @@
                     </div >
                     <!-- ala-sivutus -->
                     <div th:include="fragment/layout :: pagination" th:remove="tag"></div>
-                    <div th:include="fragment/layout :: breadcrumb" th:remove="tag"></div>
-                    <div th:include="fragment/form/add-message :: form" th:remove="tag"></div>
-                    
                 </section>
+            </div>
+            <div class="form container">
+                    <div th:include="fragment/form/add-message :: form" th:remove="tag"></div>
             </div>
 
             <footer th:replace="fragment/layout :: footer"></footer>

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
     <head th:include="fragment/scripts :: head (title=${alue.nimi})">
@@ -14,30 +14,29 @@
                 <header class="page-header">
                     <div th:include="fragment/layout :: breadcrumb" th:remove="tag"></div>
                 </header>
-                    <!-- ylasivutus -->
-                    <div th:include="fragment/layout :: pagination" th:remove="tag"></div>
                 <section class="main-content">
 
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Ketju</th>
-                                <th>Viestej&auml;</th>
-                                <th>Viimeisin viesti</th>
+                                <th class="title">Ketju</th>
+                                <th class="count">Viestej&auml;</th>
+                                <th class="date">Viimeisin viesti</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr th:each="ketju: ${ketjut}">
-                                <td><a th:href="${'/ketju/' + ketju.id}" th:text="${ketju.nimi}">alueen nimi + linkki</a></td>
-                                <td th:text="${ketju.viestienMaara ? ketju.viestienMaara : '0'}">0</td>
-                                <td th:text="${ketju.viimeisinViesti}">eilen tai joskus</td>
+                                <td class="title"><a th:href="${'/ketju/' + ketju.id}" th:text="${ketju.nimi}">alueen nimi + linkki</a></td>
+                                <td class="count" th:text="${ketju.viestienMaara ? ketju.viestienMaara : '0'}">0</td>
+                                <td class="date" th:text="${ketju.viimeisinViesti}">eilen tai joskus</td>
                             </tr>
                         </tbody>
                     </table>
-                    <!-- alasivutus -->
                     <div th:include="fragment/layout :: pagination" th:remove="tag"></div>
-                    <div th:include="fragment/form/add-thread :: form" th:remove="tag"></div>
                 </section>
+            </div>
+            <div class="form container">
+                <div th:include="fragment/form/add-thread :: form" th:remove="tag"></div>
             </div>
 
             <footer th:replace="fragment/layout :: footer"></footer>

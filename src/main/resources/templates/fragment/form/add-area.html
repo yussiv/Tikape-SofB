@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Layout Generic Title</title>
@@ -8,8 +8,13 @@
             <button type="action" id="hidebutton" class="btn btn-danger" onclick="changeVisibility()">Avaa uusi alue</button>
             <div id="hidden" style="display: none">
                 <form method="post">
-                    <input type="textarea" class="form-control" name="alue_nimi" placeholder="Alueen nimi" required="required"/>
-                    <button type="submit" class="btn btn-danger" onclick="" >Avaa uusi alue</button>
+                    <div class="form-group">
+                        <label for="alue_nimi">Alueen nimi</label>
+                        <input type="textarea" class="form-control" name="alue_nimi" placeholder="Alueen nimi" required="required"  maxlength="200"/>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-danger">Avaa uusi alue</button>
+                    </div>
                 </form>
             </div>
         </div>
