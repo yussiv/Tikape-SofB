@@ -92,7 +92,7 @@ public class Main {
         });
         
         // Lisää ketjun
-        post("/alue/:id", (req, res) -> {
+        post("/alue/:id/page/:pg", (req, res) -> {
             String nimimerkki = InputScrubber.clean(req.queryParams("nimimerkki"));
             String otsikko = InputScrubber.clean(req.queryParams("otsikko"));
             String viesti = InputScrubber.clean(req.queryParams("viesti"));

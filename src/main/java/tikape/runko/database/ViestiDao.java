@@ -114,6 +114,7 @@ public class ViestiDao implements Dao<Viesti, Integer>  {
         if(counts.size() == 1)
             count = counts.get(0);
         int pgs;
+        // varokeino tyhjää ketjua varten
         if (count > 0) {
             pgs = (count - 1) / 10 + 1;
         } else {
