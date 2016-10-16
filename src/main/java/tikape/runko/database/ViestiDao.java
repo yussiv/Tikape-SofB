@@ -82,11 +82,11 @@ public class ViestiDao implements Dao<Viesti, Integer>  {
     }
     
     public List<Viesti> findAllFromKetju(Integer key, Integer page) throws SQLException {
-
-        Connection connection = database.getConnection();
         int sivu = page * 10 - 10;
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Viesti WHERE ketju_id = ? LIMIT 10 OFFSET ?");
-        stmt.setObject(1, 2, key, sivu);
+        Connection connection = database.getConnection();
+        
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Viesti WHERE ketju_id = ? LIMIT 10 OFFSET 0");
+        stmt.setObject(1, 2, key);
         
         ResultSet rs = stmt.executeQuery();
         List<Viesti> viestit = new ArrayList<>();
