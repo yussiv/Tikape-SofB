@@ -122,7 +122,7 @@ public class Main {
             if(!nimimerkki.isEmpty() && !viesti.isEmpty())
                 viestiDao.create(ketjuId, nimimerkki, viesti);
             
-            res.redirect("/ketju/" + ketjuId + "+ /page/" + page);
+            res.redirect("/ketju/" + ketjuId + "/page/" + page);
             return null;
         });
         
