@@ -56,7 +56,7 @@ public class Main {
         get("/alue/:id", (req, res) -> {
             int id = Integer.parseInt(req.params("id"));
             int sivuMaara = ketjuDao.getPageCount(id, 3);
-            
+            System.out.println("sivumaara:"+sivuMaara);
             HashMap map = new HashMap<>();
             map.put("ketjut", ketjuDao.getPageFromAlue(id, 3, 1));
             map.put("alue", alueDao.findOne(id));
