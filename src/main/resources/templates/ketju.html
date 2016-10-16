@@ -25,7 +25,7 @@
                     <div th:if="${sivut} > 1">
                         <ul class="pagination" th:each="i : ${#numbers.sequence(1, sivut/1)}">
                             <!--<li th:if="${'/ketju/' + ketju.id + '/page/' + sivu}" class="active">-->
-                            <li  th:if="sivu == i" class="active"><a th:href="${'/ketju/' + ketju.id + '/page/' + i}" th:text="${ i }">sivu</a></li>
+                            <li  th:if="${sivu == i}" class="active"><a th:href="${'/ketju/' + ketju.id + '/page/' + i}" th:text="${ i }">sivu</a></li>
                         </ul>
                     </div>
                     <div th:include="fragment/layout :: breadcrumb" th:remove="tag"></div>
