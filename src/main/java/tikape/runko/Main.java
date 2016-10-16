@@ -70,7 +70,7 @@ public class Main {
             map.put("viestit", viestiDao.findAllFromKetju(id, sivu));
             map.put("alue", alueDao.findOne(alueId));
             map.put("ketju", ketjuDao.findOne(id));
-            map.put("sivu", alueId)
+            map.put("sivu", sivu)
             map.put("sivut", pc);
             map.put("nimimerkki", req.session().attribute("nimimerkki"));
 
