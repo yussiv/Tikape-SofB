@@ -52,27 +52,15 @@ public class AlueDao implements Dao<Alue, Integer> {
     @Override
     public Alue findOne(Integer key) throws SQLException {
         String query = "SELECT * FROM Alue WHERE id = ?";
-        List<Alue> areas = database.queryAndCollect(query,
-                rs -> new Alue(
-                        rs.getInt("id"),
-                        rs.getString("nimi")
-                ), key);
-
-        if (areas.size() != 1) {
+        List<Alue> areas = database.queryAndCollect(query, rs -> new Alue(rs.getInt("id"), rs.getString("nimi")), key);
+        if (areas.isEmpty()) 
             return null;
-        }
-
+        
         return areas.get(0);
     }
 
     @Override
     public List<Alue> findAll() throws SQLException {
-//        String query;
-//        if (database.isPostgres()) 
-//            query = "SELECT a.id, a.nimi, max(vs.viestit) AS viestit, max(vs.timestamp) AS timestamp FROM (select k.alue_id, count(v.id)"
-//                    + " AS viestit, max(v.aika) AS timestamp FROM viesti v JOIN ketju k ON k.id = v.ketju_id GROUP BY k.alue_id) vs FULL JOIN alue a"
-//                    + " ON a.id = vs.alue_id GROUP BY a.nimi, a.id ORDER BY a.nimi ASC;";
-//        else
         String query = "SELECT A.id, A.nimi, COUNT(V.id) AS viestit, MAX(V.aika) AS timestamp "
                     + "FROM Alue A JOIN Ketju K ON K.alue_id = A.id "
                     + "JOIN Viesti V ON V.ketju_id = K.id "

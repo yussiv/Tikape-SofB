@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package tikape.runko.database;
 
 import java.sql.Connection;
@@ -31,7 +27,8 @@ public class KetjuDao implements Dao<Ketju, Integer> {
 
         if (database.isPostgres()) {
             // postgressistä saa palautusarvona viimeksi lisätyn id:n
-            List<Integer> ids = database.queryAndCollect("INSERT INTO Ketju (nimi,alue_id) VALUES (?, ?) RETURNING id", rs -> rs.getInt("id"), name, areaId);
+            String query = "INSERT INTO Ketju (nimi,alue_id) VALUES (?, ?) RETURNING id";
+            List<Integer> ids = database.queryAndCollect(query, rs -> rs.getInt("id"), name, areaId);
             if (ids.size() == 1) {
                 id = ids.get(0);
             }
@@ -47,7 +44,6 @@ public class KetjuDao implements Dao<Ketju, Integer> {
             if (rs.next()) {
                 id = rs.getInt("id");
             }
-
             stm.close();
             conn.close();
         }
@@ -55,87 +51,43 @@ public class KetjuDao implements Dao<Ketju, Integer> {
     }
 
     @Override
-    public Ketju findOne(Integer key) throws SQLException {
-        Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Ketju WHERE id = ?");
-        stmt.setObject(1, key);
-
-        ResultSet rs = stmt.executeQuery();
-        boolean hasOne = rs.next();
-        if (!hasOne) {
+    public Ketju findOne(Integer id) throws SQLException {
+        String query = "SELECT * FROM Ketju WHERE id = ?";
+        List<Ketju> threads = database.queryAndCollect(query, rs -> new Ketju(rs.getInt("id"), rs.getInt("alue_id"), rs.getString("nimi")), id);
+        if(threads.isEmpty())
             return null;
-        }
-
-        Integer id = rs.getInt("id");
-        Integer alueId = rs.getInt("alue_id");
-        String nimi = rs.getString("nimi");
-
-        Ketju o = new Ketju(id, alueId, nimi);
-
-        rs.close();
-        stmt.close();
-        connection.close();
-
-        return o;
+        
+        return threads.get(0);
     }
 
     @Override
     public List<Ketju> findAll() throws SQLException {
-
-        Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Ketju");
-
-        ResultSet rs = stmt.executeQuery();
-        List<Ketju> ketjut = new ArrayList<>();
-        while (rs.next()) {
-            Integer id = rs.getInt("id");
-            Integer alueId = rs.getInt("alue_id");
-            String nimi = rs.getString("nimi");
-
-            ketjut.add(new Ketju(id, alueId, nimi));
-        }
-
-        rs.close();
-        stmt.close();
-        connection.close();
-
-        return ketjut;
+        return database.queryAndCollect("SELECT * FROM Ketju", rs -> new Ketju(rs.getInt("id"), rs.getInt("alue_id"), rs.getString("nimi")));
     }
 
-    public List<Ketju> findAllFromAlue(Integer key) throws SQLException {
+    public List<Ketju> findAllFromAlue(int id) throws SQLException {
+        return getPageFromAlue(id, -1, -1);
+    }
 
-        String query;
-        if (database.isPostgres()) {
-            query = "SELECT k.id, k.nimi, max(vs.viestit) AS viestit, max(vs.timestamp) AS timestamp FROM (SELECT v.ketju_id,"
-                    + " count(v.id) AS viestit, max(v.aika) AS timestamp FROM viesti v GROUP BY v.ketju_id) vs JOIN ketju k ON"
-                    + " k.id = vs.ketju_id WHERE k.alue_id = ? GROUP BY k.id ORDER BY timestamp DESC LIMIT 10 OFFSET 0;";
-        } else {
-            query = "SELECT k.id as id, k.nimi as nimi, count(v.id) as viestit, max(v.aika) as timestamp FROM Ketju k, Viesti v "
-                    + "WHERE k.id=v.ketju_id AND k.alue_id= ? GROUP BY k.id ORDER BY v.aika DESC;";
+    public List<Ketju> getPageFromAlue(int id, int itemCount, int pageNumber) throws SQLException {
+        int offset = itemCount * (pageNumber - 1);
+        String query = "SELECT K.id, K.nimi, count(V.id) AS viestit, max(V.aika) AS timestamp FROM Ketju K "
+                + "LEFT JOIN Viesti V ON K.id=V.ketju_id WHERE K.alue_id = ? "
+                + "GROUP BY K.id ORDER BY timestamp DESC LIMIT ? OFFSET ?";
+
+        // näytetään "kaikki" ketjut
+        if (itemCount < 1) {
+            offset = 0;
+            itemCount = 10000;
         }
 
         return database.queryAndCollect(query, rs -> new Ketju(
                 rs.getInt("id"),
-                key,
+                id,
                 rs.getString("nimi"),
                 rs.getInt("viestit"),
                 Formatteri.formatoi(rs.getString("timestamp"))
-        ), key);
-    }
-
-    public int getNewestKetju(Integer key) throws SQLException {
-
-        Connection connection = database.getConnection();
-        // Hakee kaikki kyseisen alueen ketjut ja valitsee niistä uusimman ketjun avausta varten
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Ketju WHERE alue_id = ? ORDER BY id DESC LIMIT 1");
-        stmt.setObject(1, key);
-
-        ResultSet rs = stmt.executeQuery();
-        int id = 0;
-        while (rs.next()) {
-            id = rs.getInt("id");
-        }
-        return id;
+        ), id, itemCount, offset);
     }
 
     @Override
@@ -149,33 +101,12 @@ public class KetjuDao implements Dao<Ketju, Integer> {
     }
 
     public int getPageCount(int id, int itemCount) throws SQLException {
-        List<Integer> threads = database.queryAndCollect("SELECT count(id) AS ketjut FROM Ketju WHERE alue_id = ?", rs -> rs.getInt("ketjut"), id);
+        String query = "SELECT count(id) AS ketjut FROM Ketju WHERE alue_id = ?";
+        List<Integer> threads = database.queryAndCollect(query, rs -> rs.getInt("ketjut"), id);
         if (!threads.isEmpty()) {
             int threadCount = threads.get(0);
             return itemCount > 0 ? (threadCount + itemCount - 1) / itemCount : 1;
         }
         return 0;
-    }
-
-    public List<Ketju> getPageFromAlue(int id, int itemCount, int pageNumber) throws SQLException {
-        int offset = itemCount * (pageNumber - 1);
-//        String query;
-//        if (database.isPostgres()) {
-//            query = "SELECT k.id, k.nimi, MAX(vs.viestit) AS viestit, MAX(vs.timestamp) AS timestamp FROM (SELECT v.ketju_id,"
-//                    + " count(v.id) AS viestit, MAX(v.aika) AS timestamp FROM viesti v GROUP BY v.ketju_id) vs JOIN ketju k ON"
-//                    + " k.id = vs.ketju_id WHERE k.alue_id = ? GROUP BY k.id ORDER BY timestamp DESC LIMIT ? OFFSET ?";
-//        } else {
-        String query = "SELECT K.id, K.nimi, count(V.id) AS viestit, max(V.aika) AS timestamp FROM Ketju K "
-                + "LEFT JOIN Viesti V ON K.id=V.ketju_id WHERE K.alue_id = ? "
-                + "GROUP BY K.id ORDER BY timestamp DESC LIMIT ? OFFSET ?";
-        
-
-        return database.queryAndCollect(query, rs -> new Ketju(
-                rs.getInt("id"),
-                id,
-                rs.getString("nimi"),
-                rs.getInt("viestit"),
-                Formatteri.formatoi(rs.getString("timestamp"))
-        ), id, itemCount, offset);
     }
 }
