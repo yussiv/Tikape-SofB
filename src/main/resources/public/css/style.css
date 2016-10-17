@@ -64,8 +64,8 @@ a:focus {
 }
 
 .pagination > .active > a:hover {
-    background-color: #a00;
-    border-color: #900;
+    background-color: #6d3512;
+    border-color: #42200b;
 }
 
 .pagination > li > a {
@@ -81,8 +81,14 @@ a:focus {
 }
 
 .btn-danger {
-    background-color: #900;
-    border-color: #a00;
+    background-color: #6d3512;
+    border-color: #42200b;
+    outline: none !important;
+}
+
+.btn-danger:hover {
+    background-color: #954819;
+    border-color: #5e3d20;
     outline: none !important;
 }
 
