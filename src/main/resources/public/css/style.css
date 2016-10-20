@@ -87,7 +87,7 @@ a:focus {
 }
 
 .btn-danger:hover,
-.btn-danger:focus,
+.btn-danger:focus:active,
 .btn-danger:active {
     background-color: #954819;
     border-color: #5e3d20;
