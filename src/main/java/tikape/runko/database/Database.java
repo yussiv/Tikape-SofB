@@ -121,9 +121,9 @@ public class Database<T> {
 
     private List<String> postgreLauseet() {
         ArrayList<String> lista = new ArrayList<>();
-        lista.add("CREATE TABLE Alue (id SERIAL PRIMARY KEY NOT NULL, nimi VARCHAR(200));");
-        lista.add("CREATE TABLE Ketju (id SERIAL PRIMARY KEY NOT NULL, alue_id INT, nimi VARCHAR(200));");
-        lista.add("CREATE TABLE Viesti (id SERIAL PRIMARY KEY NOT NULL, ketju_id INT, sisalto TEXT, aika TIMESTAMP WITHOUT TIME ZONE DEFAULT current_timestamp, nimimerkki VARCHAR(30));");
+        lista.add("CREATE TABLE Alue (id SERIAL PRIMARY KEY NOT NULL, nimi VARCHAR(200) NOT NULL);");
+        lista.add("CREATE TABLE Ketju (id SERIAL PRIMARY KEY NOT NULL, alue_id INT NOT NULL, nimi VARCHAR(200) NOT NULL, FOREIGN KEY (alue_id) REFERENCES Alue(id));");
+        lista.add("CREATE TABLE Viesti (id SERIAL PRIMARY KEY NOT NULL, ketju_id INT NOT NULL, sisalto TEXT NOT NULL, aika TIMESTAMP WITHOUT TIME ZONE DEFAULT current_timestamp NOT NULL, nimimerkki VARCHAR(30) NOT NULL, FOREIGN KEY (ketju_id) REFERENCES Ketju(id));");
 
         return lista;
     }
@@ -131,9 +131,9 @@ public class Database<T> {
     private List<String> sqliteLauseet() {
         ArrayList<String> lista = new ArrayList<>();
 
-        lista.add("CREATE TABLE Alue (id integer PRIMARY KEY AUTOINCREMENT, nimi VARCHAR(200));");
-        lista.add("CREATE TABLE Ketju (id integer primary key autoincrement, alue_id integer, nimi varchar(200));");
-        lista.add("CREATE TABLE Viesti (id integer primary key autoincrement, ketju_id integer, sisalto text, aika timestamp, nimimerkki varchar(30));");
+        lista.add("CREATE TABLE Alue (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, nimi VARCHAR(200) NOT NULL);");
+        lista.add("CREATE TABLE Ketju (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, alue_id INTEGER NOT NULL, nimi VARCHAR(200) NOT NULL);");
+        lista.add("CREATE TABLE Viesti (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, ketju_id INTEGER NOT NULL, sisalto TEXT NOT NULL, aika TIMESTAMP NOT NULL, nimimerkki VARCHAR(30) NOT NULL);");
 
         return lista;
     }
