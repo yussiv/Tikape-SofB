@@ -86,7 +86,9 @@ a:focus {
     outline: none !important;
 }
 
-.btn-danger:hover {
+.btn-danger:hover,
+.btn-danger:focus,
+.btn-danger:active {
     background-color: #954819;
     border-color: #5e3d20;
     outline: none !important;
