@@ -55,10 +55,10 @@ public class Main {
         // Listaa ensimmäiset x kpl Alueen ketjuja
         get("/alue/:id", (req, res) -> {
             int id = Integer.parseInt(req.params("id"));
-            int sivuMaara = ketjuDao.getPageCount(id, 3);
+            int sivuMaara = ketjuDao.getPageCount(id, 10);
             
             HashMap map = new HashMap<>();
-            map.put("ketjut", ketjuDao.getPageFromAlue(id, 3, 1));
+            map.put("ketjut", ketjuDao.getPageFromAlue(id, 10, 1));
             map.put("alue", alueDao.findOne(id));
             map.put("nimimerkki", req.session().attribute("nimimerkki"));
             if(sivuMaara > 1)
