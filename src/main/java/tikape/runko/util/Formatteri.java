@@ -12,9 +12,6 @@ public final class Formatteri {
     private static final String dateToStringFormat  = "dd.MM.yyyy HH:mm";
     private static String dateString;
 
-    private Formatteri() {
-    }
-
     public static String formatoi(String date) {
         dateString = "";
         try {
