@@ -13,13 +13,10 @@
 
                 <header class="page-header">
                     <div th:include="fragment/layout :: breadcrumb" th:remove="tag"></div>
+                    <h2 th:text="${ketju.nimi}">Ketjun nimi</h2>
                 </header>
 
                 <section class="main-content">
-                    <h2 th:text="${ketju.nimi}">Ketjun nimi</h2>
-                    <!-- ylä-sivutus -->
-                    <div th:include="fragment/layout :: pagination" th:remove="tag"></div>
-                    
                     <div class="panel" th:each="viesti: ${viestit}" th:id="${'comment-'+viesti.id}">
                         <div class="panel-heading" th:text="${viesti.nimimerkki}">nimimerkki</div>
                         <div class="panel-body" th:text="${viesti.sisalto}">sisalto</div>
