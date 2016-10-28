@@ -71,10 +71,10 @@ public class Main {
         get("/alue/:id/page/:pagenumber", (req, res) -> {
             int id = Integer.parseInt(req.params("id"));
             int sivunumero = Integer.parseInt(req.params("pagenumber"));
-            int sivuMaara = ketjuDao.getPageCount(id, 3);
+            int sivuMaara = ketjuDao.getPageCount(id, 10);
             
             HashMap map = new HashMap<>();
-            map.put("ketjut", ketjuDao.getPageFromAlue(id, 3, sivunumero));
+            map.put("ketjut", ketjuDao.getPageFromAlue(id, 10, sivunumero));
             map.put("alue", alueDao.findOne(id));
             map.put("nimimerkki", req.session().attribute("nimimerkki"));
             if(sivuMaara > 1)

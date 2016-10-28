@@ -116,7 +116,7 @@ public class ViestiDao implements Dao<Viesti, Integer>  {
         int pgs;
         // varokeino tyhjää ketjua varten
         if (count > 0) {
-            pgs = (count - 1) / 10 + 1;
+            pgs = (count - 1) / 20 + 1;
         } else {
             pgs = 1;
         }
