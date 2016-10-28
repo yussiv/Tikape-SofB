@@ -20,6 +20,7 @@
                         <thead>
                             <tr>
                                 <th class="title">Alue</th>
+                                <th class="count">Ketjuja</th>
                                 <th class="count">Viestej&auml;</th>
                                 <th class="date">Viimeisin viesti</th>
                             </tr>
@@ -27,6 +28,7 @@
                         <tbody>
                             <tr th:each="alue: ${alueet}">
                                 <td class="title"><a th:href="${'/alue/' + alue.id}" th:text="${alue.nimi}">alueen nimi + linkki</a></td>
+                                <td class="count" th:text="${alue.ketjujenMaara ? alue.ketjujenMaara : '0'}">0</td>
                                 <td class="count" th:text="${alue.viestienMaara ? alue.viestienMaara : '0'}">0</td>
                                 <td class="date" th:text="${alue.viimeisinViesti}">eilen</td>
                             </tr>
