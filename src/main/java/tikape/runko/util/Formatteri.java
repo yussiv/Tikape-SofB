@@ -20,13 +20,13 @@ public final class Formatteri {
 
             Calendar postausAika = new GregorianCalendar();
             postausAika.setTime(dateTimeGMT);
-            postausAika.add(10, 3);
+            postausAika.add(10, 2);
 
             Calendar aikaNyt = new GregorianCalendar();
             Date aikaNytDate = new Date();
             aikaNytDate.getTime();
             aikaNyt.setTime(aikaNytDate);
-            aikaNyt.add(10, 3);
+            aikaNyt.add(10, 2);
 
             if (aikaNyt.get(Calendar.YEAR) == postausAika.get(Calendar.YEAR) && aikaNyt.get(Calendar.MONTH) == postausAika.get(Calendar.MONTH) && aikaNyt.get(Calendar.DAY_OF_MONTH) == postausAika.get(Calendar.DAY_OF_MONTH)) {
                 dateString = "Tänään kello ";
